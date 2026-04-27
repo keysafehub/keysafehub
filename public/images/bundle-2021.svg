@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <rect width="200" height="200" rx="20" fill="#0A1A2F"/>
+  <g transform="translate(25, 50)">
+    <!-- Windows Logo -->
+    <rect x="0" y="0" width="30" height="30" fill="#0078D4" rx="2"/>
+    <rect x="34" y="0" width="30" height="30" fill="#0078D4" rx="2"/>
+    <rect x="0" y="34" width="30" height="30" fill="#0078D4" rx="2"/>
+    <rect x="34" y="34" width="30" height="30" fill="#0078D4" rx="2"/>
+    
+    <!-- Plus Sign -->
+    <text x="85" y="45" fill="#3498db" font-family="system-ui" font-size="32" font-weight="700">+</text>
+    
+    <!-- Office Logo -->
+    <rect x="105" y="7" width="60" height="60" fill="#D83B01" rx="6"/>
+    <text x="135" y="47" text-anchor="middle" fill="white" font-family="system-ui" font-size="32" font-weight="700">O</text>
+  </g>
+  <text x="100" y="165" text-anchor="middle" fill="white" font-family="system-ui" font-size="12" font-weight="600">Win 11 Pro + Office 2021</text>
+</svg>

@@ -1,4 +1,3 @@
-import { buffer } from "micro";
 import Stripe from "stripe";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
@@ -12,13 +11,27 @@ export const config = {
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // -----------------------------
+// RAW BODY READER (senza micro)
+// -----------------------------
+async function getRawBody(req) {
+  return await new Promise((resolve, reject) => {
+    let data = "";
+    req.on("data", (chunk) => (data += chunk));
+    req.on("end", () => resolve(data));
+    req.on("error", (err) => reject(err));
+  });
+}
+
+// -----------------------------
 // GOOGLE SHEETS SETUP
 // -----------------------------
 async function getSheetsClient() {
+  const serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
+
   const auth = new google.auth.GoogleAuth({
     credentials: {
-      client_email: process.env.GOOGLE_CLIENT_EMAIL,
-      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+      client_email: serviceAccount.client_email,
+      private_key: serviceAccount.private_key.replace(/\\n/g, "\n"),
     },
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
@@ -56,14 +69,15 @@ export default async function handler(req, res) {
     return res.status(405).send("Method not allowed");
   }
 
-  const buf = await buffer(req);
+  // RAW BODY (senza micro)
+  const rawBody = await getRawBody(req);
   const sig = req.headers["stripe-signature"];
 
   let event;
 
   try {
     event = stripe.webhooks.constructEvent(
-      buf,
+      rawBody,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
@@ -75,7 +89,7 @@ export default async function handler(req, res) {
     const session = event.data.object;
 
     const customerEmail = session.customer_email;
-    const productName = session.metadata.product; // Devi passarlo da Stripe Checkout
+    const productName = session.metadata.product;
     const sheets = await getSheetsClient();
 
     // 1. LEGGI TUTTE LE RIGHE DEL FOGLIO
@@ -104,7 +118,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true });
     }
 
-    // 3. PRENDI TUTTE LE LICENZE DEL PRODOTTO (singolo o doppio)
+    // 3. PRENDI TUTTE LE LICENZE DEL PRODOTTO
     const licensesToSend = neededLicenses.map((l) => ({
       license: l.row[0],
       type: l.row[1],

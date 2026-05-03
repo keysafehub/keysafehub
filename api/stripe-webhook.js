@@ -129,7 +129,7 @@ export default async function handler(req, res) {
     for (const lic of licensesToSend) {
       await sheets.spreadsheets.values.update({
         spreadsheetId: process.env.GOOGLE_SHEET_ID,
-        range: `Sheet1!A${lic.rowIndex}:G${lic.rowIndex}`,
+        range: `Foglio 1!A${lic.rowIndex}:G${lic.rowIndex}`,
         valueInputOption: "RAW",
         requestBody: {
           values: [

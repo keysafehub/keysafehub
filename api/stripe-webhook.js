@@ -69,7 +69,6 @@ export default async function handler(req, res) {
     return res.status(405).send("Method not allowed");
   }
 
-  // RAW BODY (senza micro)
   const rawBody = await getRawBody(req);
   const sig = req.headers["stripe-signature"];
 
@@ -92,10 +91,10 @@ export default async function handler(req, res) {
     const productName = session.metadata.product;
     const sheets = await getSheetsClient();
 
-    // 1. LEGGI TUTTE LE RIGHE DEL FOGLIO
+    // 1. LEGGI TUTTE LE RIGHE DEL FOGLIO (CORRETTO)
     const sheet = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: "Sheet1!A:G",
+      range: "Foglio 1!A:G",
     });
 
     const rows = sheet.data.values;
@@ -125,7 +124,7 @@ export default async function handler(req, res) {
       rowIndex: l.index + 1,
     }));
 
-    // 4. MARCA LE LICENZE COME USATE
+    // 4. MARCA LE LICENZE COME USATE (GIÀ CORRETTO)
     for (const lic of licensesToSend) {
       await sheets.spreadsheets.values.update({
         spreadsheetId: process.env.GOOGLE_SHEET_ID,

@@ -94,7 +94,7 @@ export default async function handler(req, res) {
     // 1. LEGGI TUTTE LE RIGHE DEL FOGLIO (CORRETTO)
     const sheet = await sheets.spreadsheets.values.get({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: "Foglio 1!A:G",
+      range: "Foglio1!A:G",
     });
 
     const rows = sheet.data.values;
@@ -128,7 +128,7 @@ export default async function handler(req, res) {
     for (const lic of licensesToSend) {
       await sheets.spreadsheets.values.update({
         spreadsheetId: process.env.GOOGLE_SHEET_ID,
-        range: `Foglio 1!A${lic.rowIndex}:G${lic.rowIndex}`,
+        range: `Foglio1!A${lic.rowIndex}:G${lic.rowIndex}`,
         valueInputOption: "RAW",
         requestBody: {
           values: [

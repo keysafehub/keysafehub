@@ -35,7 +35,7 @@ const reviews = [
     text: 'Supporto clienti molto disponibile. Ho avuto un problema minore e mi hanno risposto in poche ore risolvendolo.',
     author: 'Giuseppe M.',
     location: 'Napoli',
-    rating: 5,
+    rating: 4.5,
     product: 'Bundle Windows + Office',
     verified: true
   },

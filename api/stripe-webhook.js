@@ -10,9 +10,6 @@ export const config = {
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// -----------------------------
-// RAW BODY READER (senza micro)
-// -----------------------------
 async function getRawBody(req) {
   return await new Promise((resolve, reject) => {
     let data = "";
@@ -22,12 +19,8 @@ async function getRawBody(req) {
   });
 }
 
-// -----------------------------
-// GOOGLE SHEETS SETUP
-// -----------------------------
 async function getSheetsClient() {
   const serviceAccount = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
-
   const auth = new google.auth.GoogleAuth({
     credentials: {
       client_email: serviceAccount.client_email,
@@ -35,13 +28,9 @@ async function getSheetsClient() {
     },
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
-
   return google.sheets({ version: "v4", auth });
 }
 
-// -----------------------------
-// EMAIL SENDER
-// -----------------------------
 async function sendEmail(to, subject, text) {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
@@ -61,9 +50,6 @@ async function sendEmail(to, subject, text) {
   });
 }
 
-// -----------------------------
-// MAIN HANDLER
-// -----------------------------
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).send("Method not allowed");
@@ -71,7 +57,6 @@ export default async function handler(req, res) {
 
   const rawBody = await getRawBody(req);
   const sig = req.headers["stripe-signature"];
-
   let event;
 
   try {
@@ -87,76 +72,94 @@ export default async function handler(req, res) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
 
-    const customerEmail = session.customer_email;
-    const productName = session.metadata.product;
-    const sheets = await getSheetsClient();
+    // --- MODIFICA 1: RECUPERO EMAIL SICURO ---
+    const customerEmail = session.customer_details?.email || session.customer_email;
+    const productName = session.metadata?.product || "Prodotto"; // Safe check per metadata
+    
+    console.log(`Elaborazione ordine per: ${customerEmail}`);
 
-    // 1. LEGGI TUTTE LE RIGHE DEL FOGLIO (CORRETTO)
-    const sheet = await sheets.spreadsheets.values.get({
-      spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: "Foglio1!A:G",
-    });
-
-    const rows = sheet.data.values;
-
-    // 2. TROVA LE LICENZE NECESSARIE
-    const neededLicenses = rows
-      .map((row, index) => ({ row, index }))
-      .filter(
-        (r) =>
-          r.row[2] === productName && // product_group
-          r.row[3] === "FALSE" // used
-      );
-
-    if (neededLicenses.length === 0) {
-      await sendEmail(
-        customerEmail,
-        "Licenze esaurite",
-        "Siamo spiacenti, le licenze per questo prodotto sono terminate."
-      );
-      return res.status(200).json({ ok: true });
+    if (!customerEmail) {
+      console.error("ERRORE: Email non trovata nei dati di Stripe");
+      return res.status(200).json({ error: "Email missing" });
     }
 
-    // 3. PRENDI TUTTE LE LICENZE DEL PRODOTTO
-    const licensesToSend = neededLicenses.map((l) => ({
-      license: l.row[0],
-      type: l.row[1],
-      rowIndex: l.index + 1,
-    }));
+    try {
+      const sheets = await getSheetsClient();
 
-    // 4. MARCA LE LICENZE COME USATE (CORRETTO)
-    for (const lic of licensesToSend) {
-      await sheets.spreadsheets.values.update({
+      // 1. LEGGI TUTTE LE RIGHE DEL FOGLIO
+      const sheet = await sheets.spreadsheets.values.get({
         spreadsheetId: process.env.GOOGLE_SHEET_ID,
-        range: `Foglio1!A${lic.rowIndex}:G${lic.rowIndex}`,
-        valueInputOption: "RAW",
-        requestBody: {
-          values: [
-            [
-              lic.license,
-              lic.type,
-              productName,
-              "TRUE",
-              customerEmail,
-              new Date().toISOString(),
-              event.id,
-            ],
-          ],
-        },
+        range: "Foglio1!A:G",
       });
+
+      const rows = sheet.data.values;
+      if (!rows) throw new Error("Foglio Google vuoto o non accessibile");
+
+      // 2. TROVA LE LICENZE NECESSARIE
+      const neededLicenses = rows
+        .map((row, index) => ({ row, index }))
+        .filter(
+          (r) =>
+            r.row[2] === productName && 
+            (r.row[3] === "FALSE" || r.row[3] === false)
+        );
+
+      if (neededLicenses.length === 0) {
+        console.warn("Licenze esaurite per:", productName);
+        try {
+          await sendEmail(customerEmail, "Licenze esaurite", "Siamo spiacenti, le licenze sono terminate.");
+        } catch (e) { console.error("Invio mail esaurimento fallito"); }
+        return res.status(200).json({ ok: true });
+      }
+
+      const licensesToSend = neededLicenses.map((l) => ({
+        license: l.row[0],
+        type: l.row[1],
+        rowIndex: l.index + 1,
+      }));
+
+      // 4. MARCA LE LICENZE COME USATE
+      for (const lic of licensesToSend) {
+        await sheets.spreadsheets.values.update({
+          spreadsheetId: process.env.GOOGLE_SHEET_ID,
+          range: `Foglio1!A${lic.rowIndex}:G${lic.rowIndex}`,
+          valueInputOption: "RAW",
+          requestBody: {
+            values: [
+              [
+                lic.license,
+                lic.type,
+                productName,
+                "TRUE",
+                customerEmail,
+                new Date().toISOString(),
+                event.id,
+              ],
+            ],
+          },
+        });
+      }
+
+      // 5. PREPARA EMAIL
+      let emailText = `Grazie per il tuo acquisto!\n\nEcco le tue licenze per: ${productName}\n\n`;
+      for (const lic of licensesToSend) {
+        emailText += `${lic.type}: ${lic.license}\n`;
+      }
+      emailText += `\nSe hai bisogno di aiuto, rispondi a questa email.\n\nKeySafeHub`;
+
+      // --- MODIFICA 2: INVIO EMAIL CON PROTEZIONE ---
+      try {
+        await sendEmail(customerEmail, "Le tue licenze", emailText);
+        console.log("Email inviata con successo!");
+      } catch (mailErr) {
+        console.error("ERRORE SMTP (Mail non inviata):", mailErr.message);
+        // Il foglio è stato aggiornato, quindi non blocchiamo Stripe
+      }
+
+    } catch (dbErr) {
+      console.error("ERRORE DATABASE/GOOGLE:", dbErr.message);
+      return res.status(500).send("Internal Server Error");
     }
-
-    // 5. PREPARA EMAIL
-    let emailText = `Grazie per il tuo acquisto!\n\nEcco le tue licenze per: ${productName}\n\n`;
-
-    for (const lic of licensesToSend) {
-      emailText += `${lic.type}: ${lic.license}\n`;
-    }
-
-    emailText += `\nSe hai bisogno di aiuto, rispondi a questa email.\n\nKeySafeHub`;
-
-    // 6. INVIA EMAIL
-    await sendEmail(customerEmail, "Le tue licenze", emailText);
   }
 
   res.status(200).json({ received: true });

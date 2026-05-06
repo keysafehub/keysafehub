@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import { Shield, Lock, Zap } from 'lucide-react'
 import Link from 'next/link'
@@ -73,15 +75,14 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Content - Hero Image */}
+          {/* Right Content - Hero Image - MODIFICATO */}
           <div className="hidden lg:flex justify-center animate-fade-in-delay-2">
-            <div className="relative">
+            <div className="relative w-full max-w-[600px] aspect-square">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/homepage%20-i6VUZtJs1FtcGYE3bzwDtNEm7qld8y.png"
-                alt="Windows 11 Pro, Office e McAfee - Licenze Digitali"
-                width={500}
-                height={500}
-                className="object-contain drop-shadow-2xl"
+                src="/hero-main.webp" // <--- Assicurati di caricare il file con questo nome in public
+                alt="Licenze Digitali - Windows, Office, McAfee"
+                fill
+                className="object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
                 priority
               />
             </div>

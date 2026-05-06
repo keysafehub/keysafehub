@@ -22,13 +22,13 @@ export function ProductCard({ product }: ProductCardProps) {
         -{product.discountPercent}%
       </Badge>
 
-      {/* Product Image */}
-      <div className="relative aspect-[4/3] bg-gradient-to-br from-secondary to-muted overflow-hidden">
+      {/* Product Image - MODIFICATO: rimosso padding e messo object-cover */}
+      <div className="relative aspect-square overflow-hidden">
         <Image
           src={product.image}
           alt={product.title}
           fill
-          className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>
 

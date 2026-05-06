@@ -15,14 +15,35 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const [showGuide, setShowGuide] = useState(false)
 
+  // 🔥 Funzione che crea la sessione Stripe tramite la tua API
+  async function handleCheckout() {
+    const res = await fetch("/api/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        productName: product.title,
+        priceId: product.priceId, // deve esistere in /lib/products.ts
+      }),
+    })
+
+    const data = await res.json()
+
+    if (data.url) {
+      window.location.href = data.url
+    } else {
+      console.error("Errore nella creazione della sessione Stripe:", data)
+    }
+  }
+
   return (
     <Card className="group relative overflow-hidden bg-card border-border/50 hover:border-azure/30 hover:shadow-xl transition-all duration-300">
+      
       {/* Discount Badge */}
       <Badge className="absolute top-4 right-4 z-10 bg-azure text-azure-foreground font-semibold">
         -{product.discountPercent}%
       </Badge>
 
-      {/* Product Image - MODIFICATO: rimosso padding e messo object-cover */}
+      {/* Product Image */}
       <div className="relative aspect-square overflow-hidden">
         <Image
           src={product.image}
@@ -36,6 +57,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2">
           {product.title}
         </h3>
+
         {product.description && (
           <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
             {product.description}
@@ -86,15 +108,14 @@ export function ProductCard({ product }: ProductCardProps) {
 
       <CardFooter className="p-6 pt-0">
         <Button 
-          asChild 
+          onClick={handleCheckout}
           className="w-full bg-azure hover:bg-azure/90 text-white font-medium"
         >
-          <a href={product.stripeLink} target="_blank" rel="noopener noreferrer">
-            <ShoppingCart className="mr-2 h-4 w-4" />
-            Acquista con Stripe
-          </a>
+          <ShoppingCart className="mr-2 h-4 w-4" />
+          Acquista con Stripe
         </Button>
       </CardFooter>
     </Card>
   )
 }
+

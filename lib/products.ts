@@ -19,8 +19,8 @@ export const products: Product[] = [
   {
     id: 'windows-11-pro',
     title: 'Windows 11 Pro',
-    description: 'La versione professionale di Windows 11 con funzionalita avanzate per la sicurezza e la produttivita.',
-    longDescription: 'Windows 11 Pro e la versione professionale del sistema operativo Microsoft, progettata per utenti che necessitano di funzionalita avanzate. Include BitLocker per la crittografia dei dati, Desktop Remoto, Hyper-V per la virtualizzazione, Windows Sandbox e il supporto per Azure Active Directory. Ideale per professionisti, piccole imprese e utenti avanzati che richiedono maggiore controllo e sicurezza.',
+    description: 'La versione professionale di Windows 11 con funzionalità avanzate per la sicurezza e la produttività.',
+    longDescription: 'Windows 11 Pro è la versione professionale del sistema operativo Microsoft...',
     features: [
       'BitLocker - Crittografia completa del disco',
       'Desktop Remoto - Accesso al PC da qualsiasi luogo',
@@ -32,7 +32,7 @@ export const products: Product[] = [
       'Aggiornamenti posticipabili'
     ],
     systemRequirements: [
-      'Processore: 1 GHz o superiore con 2 o piu core (64-bit)',
+      'Processore: 1 GHz o superiore con 2 o più core (64-bit)',
       'RAM: 4 GB minimo',
       'Spazio su disco: 64 GB minimo',
       'Firmware: UEFI con Secure Boot',
@@ -40,7 +40,7 @@ export const products: Product[] = [
       'Scheda grafica: DirectX 12 compatibile',
       'Display: HD (720p) minimo'
     ],
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/win%2011%20pro%20definitivo%20-iRVzf846jy0N3Cn6EUWK6fowWX272g.png',
+    image: '/products/win11-pro.webp',
     originalPrice: 59.90,
     salePrice: 14.90,
     discountPercent: 75,
@@ -57,8 +57,8 @@ export const products: Product[] = [
   {
     id: 'windows-11-home',
     title: 'Windows 11 Home',
-    description: 'Windows 11 Home per uso domestico con tutte le funzionalita essenziali.',
-    longDescription: 'Windows 11 Home e la versione ideale per uso domestico e personale. Offre un\'interfaccia moderna e intuitiva, integrazione con Microsoft 365, supporto per app Android, Snap Layouts per la gestione delle finestre e molto altro. Perfetto per chi cerca un sistema operativo affidabile per navigazione, streaming, gaming e produttivita quotidiana.',
+    description: 'Windows 11 Home per uso domestico con tutte le funzionalità essenziali.',
+    longDescription: 'Windows 11 Home è la versione ideale per uso domestico e personale...',
     features: [
       'Interfaccia moderna con nuovo menu Start',
       'Snap Layouts - Organizzazione finestre intelligente',
@@ -70,7 +70,7 @@ export const products: Product[] = [
       'Windows Hello - Accesso biometrico'
     ],
     systemRequirements: [
-      'Processore: 1 GHz o superiore con 2 o piu core (64-bit)',
+      'Processore: 1 GHz o superiore con 2 o più core (64-bit)',
       'RAM: 4 GB minimo',
       'Spazio su disco: 64 GB minimo',
       'Firmware: UEFI con Secure Boot',
@@ -78,7 +78,7 @@ export const products: Product[] = [
       'Scheda grafica: DirectX 12 compatibile',
       'Display: HD (720p) minimo'
     ],
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/win%2011%20home%20definitivo%20-Bx946O6JJyqDQtSmZXYORuZzAlP1mc.png',
+    image: '/products/win11-home.webp',
     originalPrice: 49.90,
     salePrice: 11.90,
     discountPercent: 76,
@@ -98,7 +98,7 @@ export const products: Product[] = [
     id: 'office-2021-pro-plus',
     title: 'Office 2021 Professional Plus',
     description: 'Suite completa con Word, Excel, PowerPoint, Outlook, Access e Publisher.',
-    longDescription: 'Microsoft Office 2021 Professional Plus e la suite completa per la produttivita che include tutte le applicazioni necessarie per lavorare in modo professionale. Con Word, Excel, PowerPoint, Outlook, Access e Publisher, avrai tutto il necessario per creare documenti, gestire dati, realizzare presentazioni e comunicare efficacemente. Licenza perpetua, nessun abbonamento richiesto.',
+    longDescription: 'Microsoft Office 2021 Professional Plus è la suite completa...',
     features: [
       'Microsoft Word - Elaborazione testi professionale',
       'Microsoft Excel - Fogli di calcolo avanzati',
@@ -117,7 +117,7 @@ export const products: Product[] = [
       'Sistema operativo: Windows 10 o Windows 11',
       'Browser: Edge, Chrome, Firefox o Safari'
     ],
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/office%202021%20definitivo-CGKeqQqfY6boRMEEfy5YtMyaPp3h23.png',
+    image: '/products/office21.webp',
     originalPrice: 49.90,
     salePrice: 13.90,
     discountPercent: 72,
@@ -134,10 +134,10 @@ export const products: Product[] = [
   {
     id: 'office-2024-pro-plus',
     title: 'Office 2024 Professional Plus',
-    description: 'L\'ultima versione di Office con tutte le nuove funzionalita e miglioramenti.',
-    longDescription: 'Microsoft Office 2024 Professional Plus rappresenta l\'ultima evoluzione della suite di produttivita Microsoft. Include tutte le applicazioni classiche con nuove funzionalita basate sull\'intelligenza artificiale, miglioramenti delle prestazioni e una nuova interfaccia utente. Supporto per formati moderni, collaborazione migliorata e strumenti avanzati per l\'analisi dei dati.',
+    description: 'L\'ultima versione di Office con tutte le nuove funzionalità e miglioramenti.',
+    longDescription: 'Microsoft Office 2024 Professional Plus rappresenta l\'ultima evoluzione...',
     features: [
-      'Nuove funzionalita AI integrate',
+      'Nuove funzionalità AI integrate',
       'Interfaccia utente rinnovata',
       'Prestazioni migliorate',
       'Nuove funzioni Excel (XLOOKUP, LET, LAMBDA)',
@@ -154,7 +154,7 @@ export const products: Product[] = [
       'Sistema operativo: Windows 10 o Windows 11',
       'Connessione internet per attivazione'
     ],
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/office%202024%20definitivo-oqRrwX0lpIYZXDYcnGAxu0h3Xjv1sj.jpg',
+    image: '/products/office24.webp',
     originalPrice: 79.90,
     salePrice: 24.90,
     discountPercent: 69,
@@ -174,7 +174,7 @@ export const products: Product[] = [
     id: 'bundle-win11-office2021',
     title: 'Windows 11 Pro + Office 2021',
     description: 'Il bundle perfetto: Windows 11 Pro e Office 2021 Professional Plus insieme.',
-    longDescription: 'Questo bundle combina il meglio di Microsoft: Windows 11 Pro per un sistema operativo sicuro e professionale, insieme a Office 2021 Professional Plus per la massima produttivita. Risparmia acquistando entrambi i prodotti insieme e ottieni tutto il necessario per lavorare, studiare o gestire la tua attivita. Riceverai due Product Key separati per attivare entrambi i software.',
+    longDescription: 'Questo bundle combina il meglio di Microsoft...',
     features: [
       'Windows 11 Pro completo',
       'Office 2021 Professional Plus completo',
@@ -193,7 +193,7 @@ export const products: Product[] = [
       'TPM 2.0 e Secure Boot richiesti',
       'Connessione internet per download'
     ],
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/win%2011%20pro%20e%20office%2021-GCfxXDQxQG7lk2t2zwVllYT7RYrRUP.png',
+    image: '/products/win11-pro-office21.webp',
     originalPrice: 109.80,
     salePrice: 19.90,
     discountPercent: 82,
@@ -211,13 +211,13 @@ export const products: Product[] = [
     id: 'bundle-win11-office2024',
     title: 'Windows 11 Pro + Office 2024',
     description: 'Il bundle premium: Windows 11 Pro e Office 2024 Professional Plus insieme.',
-    longDescription: 'Il bundle premium per chi vuole il massimo: Windows 11 Pro con tutte le funzionalita professionali e Office 2024 Professional Plus con le ultime innovazioni Microsoft. Ideale per professionisti, aziende e utenti esigenti che vogliono lavorare con i software piu recenti. Massimo risparmio e massime prestazioni in un unico acquisto.',
+    longDescription: 'Il bundle premium per chi vuole il massimo...',
     features: [
       'Windows 11 Pro - Ultima versione',
       'Office 2024 Professional Plus - Ultima versione',
       'Due Product Key separati',
       'Massimo risparmio garantito',
-      'Funzionalita AI di Office 2024',
+      'Funzionalità AI di Office 2024',
       'BitLocker e sicurezza avanzata',
       'Licenze perpetue incluse',
       'Supporto prioritario'
@@ -230,7 +230,7 @@ export const products: Product[] = [
       'TPM 2.0 e Secure Boot richiesti',
       'Connessione internet per download'
     ],
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/win%2011%20pro%20e%20office2024-enfjHfdolxGjINvhqdBfzfMIlIhnLG.png',
+    image: '/products/win11-pro-office24.webp',
     originalPrice: 139.80,
     salePrice: 29.90,
     discountPercent: 79,
@@ -250,13 +250,13 @@ export const products: Product[] = [
     id: 'mcafee-antivirus-plus',
     title: 'McAfee AntiVirus Plus',
     description: 'Protezione antivirus essenziale per il tuo PC con scansione in tempo reale.',
-    longDescription: 'McAfee AntiVirus Plus offre una protezione essenziale contro virus, malware, ransomware e altre minacce online. Con la scansione in tempo reale, il tuo PC e sempre protetto mentre navighi, scarichi file o apri allegati email. Interfaccia semplice e leggera sulle risorse di sistema.',
+    longDescription: 'McAfee AntiVirus Plus offre una protezione essenziale...',
     features: [
       'Protezione antivirus in tempo reale',
       'Scansione anti-malware',
       'Protezione ransomware',
       'Firewall personale',
-      'Scansione vulnerabilita Wi-Fi',
+      'Scansione vulnerabilità Wi-Fi',
       'Aggiornamenti automatici',
       'Impatto minimo sulle prestazioni',
       'Abbonamento 1 anno'
@@ -268,7 +268,7 @@ export const products: Product[] = [
       'Spazio su disco: 500 MB',
       'Connessione internet richiesta'
     ],
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/mcafee%20plus-kLpFd31LLi2dNcgAvN95Lv4fcmkJiY.png',
+    image: '/products/mcafee-plus.webp',
     originalPrice: 39.90,
     salePrice: 9.90,
     discountPercent: 75,
@@ -286,12 +286,12 @@ export const products: Product[] = [
     id: 'mcafee-total-protection-1',
     title: 'McAfee Total Protection - 1 Dispositivo',
     description: 'Protezione completa per PC, Mac, smartphone e tablet. Abbonamento 1 anno.',
-    longDescription: 'McAfee Total Protection e la soluzione di sicurezza completa che protegge la tua vita digitale. Oltre all\'antivirus, include VPN sicura, gestore password, protezione identita, navigazione sicura e molto altro. Una protezione a 360 gradi per il tuo dispositivo principale.',
+    longDescription: 'McAfee Total Protection è la soluzione di sicurezza completa...',
     features: [
       'Antivirus e anti-malware avanzato',
       'VPN sicura illimitata',
       'Gestore password',
-      'Protezione identita',
+      'Protezione identità',
       'Navigazione sicura',
       'Firewall avanzato',
       'Protezione rete domestica',
@@ -304,7 +304,7 @@ export const products: Product[] = [
       'Spazio su disco: 500 MB',
       'Connessione internet richiesta'
     ],
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/mcafee%201%20dispositivo-dUofIT2CdNV2CXqtxOzKtGXGcCFyiI.png',
+    image: '/products/mcafee-1.webp',
     originalPrice: 49.90,
     salePrice: 11.90,
     discountPercent: 76,
@@ -322,14 +322,14 @@ export const products: Product[] = [
     id: 'mcafee-total-protection-5',
     title: 'McAfee Total Protection - 5 Dispositivi',
     description: 'Protezione completa per tutta la famiglia. 5 dispositivi, 1 anno di abbonamento.',
-    longDescription: 'McAfee Total Protection per 5 dispositivi e la soluzione ideale per proteggere tutta la famiglia. Copre PC, Mac, smartphone e tablet con un\'unica licenza. Include tutte le funzionalita premium di McAfee piu il controllo parentale per proteggere i piu piccoli online.',
+    longDescription: 'McAfee Total Protection per 5 dispositivi è la soluzione ideale...',
     features: [
       'Protezione per 5 dispositivi',
       'Antivirus e anti-malware premium',
       'VPN sicura per tutti i dispositivi',
       'Gestore password famiglia',
       'Controllo parentale',
-      'Protezione identita famiglia',
+      'Protezione identità famiglia',
       'Monitoraggio dark web',
       'Supporto prioritario 24/7'
     ],
@@ -340,7 +340,7 @@ export const products: Product[] = [
       'Spazio su disco: 500 MB per dispositivo',
       'Connessione internet richiesta'
     ],
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/mcaffe%205%20dispositivi-ALnHA5NA9IL4PgL31eW7gvchP5SYGl.png',
+    image: '/products/mcaffe-5.webp', // Mantenuto 'mcaffe' come da tuo screenshot
     originalPrice: 89.90,
     salePrice: 22.90,
     discountPercent: 75,
@@ -358,14 +358,14 @@ export const products: Product[] = [
     id: 'bundle-win11-mcafee',
     title: 'Windows 11 Pro + McAfee Total Protection',
     description: 'Il bundle sicurezza: Windows 11 Pro con McAfee Total Protection incluso.',
-    longDescription: 'Il bundle perfetto per chi vuole un PC sicuro fin dal primo giorno. Windows 11 Pro offre funzionalita di sicurezza integrate come BitLocker, mentre McAfee Total Protection aggiunge un ulteriore livello di protezione con antivirus, VPN e protezione identita. La combinazione ideale per la massima tranquillita.',
+    longDescription: 'Il bundle perfetto per chi vuole un PC sicuro fin dal primo giorno...',
     features: [
       'Windows 11 Pro completo',
       'McAfee Total Protection 1 dispositivo',
       'Doppia protezione garantita',
       'BitLocker + Antivirus McAfee',
       'VPN sicura inclusa',
-      'Protezione identita',
+      'Protezione identità',
       'Due codici separati',
       'Risparmio esclusivo'
     ],
@@ -377,7 +377,7 @@ export const products: Product[] = [
       'TPM 2.0 richiesto',
       'Connessione internet'
     ],
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/win%2011%20e%20mcafee-Wst0T2QmvaLk7qFiLg9Lwf11ejembC.png',
+    image: '/products/win11-mcafee.webp',
     originalPrice: 109.80,
     salePrice: 24.90,
     discountPercent: 77,

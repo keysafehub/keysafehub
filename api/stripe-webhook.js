@@ -69,107 +69,100 @@ export default async function handler(req, res) {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-
-    const customerEmail =
-      session.customer_details?.email || session.customer_email;
-
-    const productName = session.metadata?.product || "Prodotto";
-
-    console.log("=== NUOVO ORDINE ===");
-    console.log("Email cliente:", customerEmail);
-    console.log("ProductName da Stripe:", productName);
-
-    if (!customerEmail) {
-      console.error("ERRORE: Email non trovata nei dati di Stripe");
-      return res.status(200).json({ error: "Email missing" });
-    }
-
-    try {
-      const sheets = await getSheetsClient();
-
-      const sheet = await sheets.spreadsheets.values.get({
-        spreadsheetId: process.env.GOOGLE_SHEET_ID,
-        range: "Foglio1!A:G",
-      });
-
-      const rows = sheet.data.values;
-      if (!rows) throw new Error("Foglio Google vuoto o non accessibile");
-
-      // 🔥 FILTRO ROBUSTO
-      const neededLicenses = rows
-        .map((row, index) => ({ row, index }))
-        .filter((r) => {
-          const sheetProduct = r.row[2]?.toString().trim().toLowerCase();
-          const sheetUsed = r.row[3]?.toString().trim().toLowerCase();
-          const stripeProduct = productName.toString().trim().toLowerCase();
-
-          return sheetProduct === stripeProduct && sheetUsed === "false";
-        });
-
-      console.log("Licenze trovate:", neededLicenses.length);
-
-      if (neededLicenses.length === 0) {
-        console.warn("Licenze esaurite per:", productName);
-        try {
-          await sendEmail(
-            customerEmail,
-            "Licenze esaurite",
-            "Siamo spiacenti, le licenze sono terminate."
-          );
-        } catch (e) {
-          console.error("Invio mail esaurimento fallito");
-        }
-        return res.status(200).json({ ok: true });
-      }
-
-      const licensesToSend = neededLicenses.map((l) => ({
-        license: l.row[0],
-        type: l.row[1],
-        rowIndex: l.index + 1,
-      }));
-
-      // 🔥 MARCA COME USATE
-      for (const lic of licensesToSend) {
-        await sheets.spreadsheets.values.update({
-          spreadsheetId: process.env.GOOGLE_SHEET_ID,
-          range: `Foglio1!A${lic.rowIndex}:G${lic.rowIndex}`,
-          valueInputOption: "RAW",
-          requestBody: {
-            values: [
-              [
-                lic.license,
-                lic.type,
-                productName,
-                "TRUE",
-                customerEmail,
-                new Date().toISOString(),
-                event.id,
-              ],
-            ],
-          },
-        });
-      }
-
-      // 🔥 EMAIL AL CLIENTE
-      let emailText = `Grazie per il tuo acquisto!\n\nEcco le tue licenze per: ${productName}\n\n`;
-      for (const lic of licensesToSend) {
-        emailText += `${lic.type}: ${lic.license}\n`;
-      }
-      emailText += `\nSe hai bisogno di aiuto, rispondi a questa email.\n\nKeySafeHub`;
-
-      try {
-        await sendEmail(customerEmail, "Le tue licenze", emailText);
-        console.log("Email inviata con successo!");
-      } catch (mailErr) {
-        console.error("ERRORE SMTP (Mail non inviata):", mailErr.message);
-      }
-    } catch (dbErr) {
-      console.error("ERRORE DATABASE/GOOGLE:", dbErr.message);
-      return res.status(500).send("Internal Server Error");
-    }
+  // ⭐ PROCESSA SOLO QUESTO EVENTO
+  if (event.type !== "checkout.session.completed") {
+    return res.status(200).send("ignored");
   }
 
+  const session = event.data.object;
+
+  const customerEmail =
+    session.customer_details?.email || session.customer_email;
+
+  const productName = session.metadata?.product || "Prodotto";
+
+  if (!customerEmail) {
+    console.error("ERRORE: Email non trovata nei dati di Stripe");
+    return res.status(200).json({ error: "Email missing" });
+  }
+
+  try {
+    const sheets = await getSheetsClient();
+
+    const sheet = await sheets.spreadsheets.values.get({
+      spreadsheetId: process.env.GOOGLE_SHEET_ID,
+      range: "Foglio1!A:G",
+    });
+
+    const rows = sheet.data.values;
+    if (!rows) throw new Error("Foglio Google vuoto o non accessibile");
+
+    // ⭐ TROVA SOLO LA PRIMA LICENZA DISPONIBILE
+    const available = rows
+      .map((row, index) => ({ row, index }))
+      .find((r) => {
+        const sheetProduct = r.row[2]?.toString().trim().toLowerCase();
+        const sheetUsed = r.row[3]?.toString().trim().toLowerCase();
+        const stripeProduct = productName.toString().trim().toLowerCase();
+
+        return sheetProduct === stripeProduct && sheetUsed === "false";
+      });
+
+    if (!available) {
+      console.warn("Licenze esaurite per:", productName);
+      await sendEmail(
+        customerEmail,
+        "Licenze esaurite",
+        "Siamo spiacenti, le licenze sono terminate."
+      );
+      return res.status(200).json({ ok: true });
+    }
+
+    // ⭐ PREPARA LA LICENZA
+    const license = {
+      license: available.row[0],
+      type: available.row[1],
+      rowIndex: available.index + 1,
+    };
+
+    // ⭐ MARCA COME USATA
+    await sheets.spreadsheets.values.update({
+      spreadsheetId: process.env.GOOGLE_SHEET_ID,
+      range: `Foglio1!A${license.rowIndex}:G${license.rowIndex}`,
+      valueInputOption: "RAW",
+      requestBody: {
+        values: [
+          [
+            license.license,
+            license.type,
+            productName,
+            "TRUE",
+            customerEmail,
+            new Date().toISOString(),
+            event.id,
+          ],
+        ],
+      },
+    });
+
+    // ⭐ INVIA UNA SOLA EMAIL CON UNA SOLA LICENZA
+    const emailText = `Grazie per il tuo acquisto!
+
+Ecco la tua licenza per: ${productName}
+
+${license.type}: ${license.license}
+
+Se hai bisogno di aiuto, rispondi a questa email.
+
+KeySafeHub`;
+
+    await sendEmail(customerEmail, "La tua licenza", emailText);
+    console.log("Email inviata con successo!");
+  } catch (err) {
+    console.error("ERRORE WEBHOOK:", err.message);
+    return res.status(500).send("Internal Server Error");
+  }
+
+  // ⭐ RISPOSTA CORRETTA → Stripe NON RIPETE
   res.status(200).json({ received: true });
 }

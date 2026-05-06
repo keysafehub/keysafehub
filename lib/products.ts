@@ -9,7 +9,7 @@ export interface Product {
   originalPrice: number
   salePrice: number
   discountPercent: number
-  stripeLink: string
+  priceId: string // ⬅️ al posto di stripeLink
   category: 'windows' | 'office' | 'bundle' | 'antivirus'
   guide?: string[]
 }
@@ -44,7 +44,7 @@ export const products: Product[] = [
     originalPrice: 59.90,
     salePrice: 14.90,
     discountPercent: 75,
-    stripeLink: 'https://buy.stripe.com/9B614h0uN5sW8wc8W5b3q00',
+    priceId: 'price_WINDOWS_11_PRO', // ⬅️ METTI QUI IL PRICE ID DI STRIPE
     category: 'windows',
     guide: [
       'Scarica il file ISO di Windows 11 dal sito ufficiale Microsoft',
@@ -82,7 +82,7 @@ export const products: Product[] = [
     originalPrice: 49.90,
     salePrice: 11.90,
     discountPercent: 76,
-    stripeLink: 'https://buy.stripe.com/aFaeV7elD4oSfYEdclb3q05',
+    priceId: 'price_WINDOWS_11_HOME', // ⬅️ METTI QUI IL PRICE ID
     category: 'windows',
     guide: [
       'Scarica il file ISO di Windows 11 dal sito ufficiale Microsoft',
@@ -121,7 +121,7 @@ export const products: Product[] = [
     originalPrice: 49.90,
     salePrice: 13.90,
     discountPercent: 72,
-    stripeLink: 'https://buy.stripe.com/7sY7sFelD4oSh2I3BLb3q04',
+    priceId: 'price_OFFICE_2021_PRO', // ⬅️ METTI QUI IL PRICE ID
     category: 'office',
     guide: [
       'Ricevi il Product Key e il link per il download via email',
@@ -158,7 +158,7 @@ export const products: Product[] = [
     originalPrice: 79.90,
     salePrice: 24.90,
     discountPercent: 69,
-    stripeLink: 'https://buy.stripe.com/6oU00d3GZ08CcMs2xHb3q03',
+    priceId: 'price_OFFICE_2024_PRO', // ⬅️ METTI QUI IL PRICE ID
     category: 'office',
     guide: [
       'Ricevi il Product Key e il link per il download via email',
@@ -197,7 +197,7 @@ export const products: Product[] = [
     originalPrice: 109.80,
     salePrice: 19.90,
     discountPercent: 82,
-    stripeLink: 'https://buy.stripe.com/aFafZb5P76x07s8b4db3q01',
+    priceId: 'price_BUNDLE_WIN11_OFFICE21', // ⬅️ METTI QUI IL PRICE ID
     category: 'bundle',
     guide: [
       'Ricevi 2 Product Key separati via email (Windows + Office)',
@@ -234,7 +234,7 @@ export const products: Product[] = [
     originalPrice: 139.80,
     salePrice: 29.90,
     discountPercent: 79,
-    stripeLink: 'https://buy.stripe.com/dRmfZbb9r7B4aEkegpb3q06',
+    priceId: 'price_BUNDLE_WIN11_OFFICE24', // ⬅️ METTI QUI IL PRICE ID
     category: 'bundle',
     guide: [
       'Ricevi 2 Product Key separati via email (Windows + Office)',
@@ -272,7 +272,7 @@ export const products: Product[] = [
     originalPrice: 39.90,
     salePrice: 9.90,
     discountPercent: 75,
-    stripeLink: 'https://buy.stripe.com/5kQaERelD2gK5k0dclb3q02',
+    priceId: 'price_MCAFEE_AV_PLUS', // ⬅️ METTI QUI IL PRICE ID
     category: 'antivirus',
     guide: [
       'Ricevi il codice di attivazione via email dopo l\'acquisto',
@@ -308,7 +308,7 @@ export const products: Product[] = [
     originalPrice: 49.90,
     salePrice: 11.90,
     discountPercent: 76,
-    stripeLink: 'https://buy.stripe.com/5kQ7sF5P77B4cMs8W5b3q07',
+    priceId: 'price_MCAFEE_TOTAL_1', // ⬅️ METTI QUI IL PRICE ID
     category: 'antivirus',
     guide: [
       'Ricevi il codice di attivazione via email dopo l\'acquisto',
@@ -340,11 +340,11 @@ export const products: Product[] = [
       'Spazio su disco: 500 MB per dispositivo',
       'Connessione internet richiesta'
     ],
-    image: '/products/mcaffe-5.webp', // Mantenuto 'mcaffe' come da tuo screenshot
+    image: '/products/mcaffe-5.webp',
     originalPrice: 89.90,
     salePrice: 22.90,
     discountPercent: 75,
-    stripeLink: 'https://buy.stripe.com/eVq4gt91j4oSeUA1tDb3q08',
+    priceId: 'price_MCAFEE_TOTAL_5', // ⬅️ METTI QUI IL PRICE ID
     category: 'antivirus',
     guide: [
       'Ricevi il codice di attivazione via email dopo l\'acquisto',
@@ -381,7 +381,7 @@ export const products: Product[] = [
     originalPrice: 109.80,
     salePrice: 24.90,
     discountPercent: 77,
-    stripeLink: 'https://buy.stripe.com/9B614h0uN5sW8wc8W5b3q00',
+    priceId: 'price_BUNDLE_WIN11_MCAFEE', // ⬅️ METTI QUI IL PRICE ID
     category: 'bundle',
     guide: [
       'Ricevi 2 codici separati via email (Windows + McAfee)',

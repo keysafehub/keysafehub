@@ -44,7 +44,7 @@ export const products: Product[] = [
     originalPrice: 59.90,
     salePrice: 14.90,
     discountPercent: 75,
-    priceId: 'price_WINDOWS_11_PRO', // ⬅️ METTI QUI IL PRICE ID DI STRIPE
+    priceId: 'price_1TPlxo9G8P4TUiTsvgmIPfOy', // ⬅️ METTI QUI IL PRICE ID DI STRIPE
     category: 'windows',
     guide: [
       'Scarica il file ISO di Windows 11 dal sito ufficiale Microsoft',
@@ -82,7 +82,7 @@ export const products: Product[] = [
     originalPrice: 49.90,
     salePrice: 11.90,
     discountPercent: 76,
-    priceId: 'price_WINDOWS_11_HOME', // ⬅️ METTI QUI IL PRICE ID
+    priceId: 'price_1TPm3b9G8P4TUiTspdFLHiEv', // ⬅️ METTI QUI IL PRICE ID
     category: 'windows',
     guide: [
       'Scarica il file ISO di Windows 11 dal sito ufficiale Microsoft',
@@ -121,7 +121,7 @@ export const products: Product[] = [
     originalPrice: 49.90,
     salePrice: 13.90,
     discountPercent: 72,
-    priceId: 'price_OFFICE_2021_PRO', // ⬅️ METTI QUI IL PRICE ID
+    priceId: 'price_1TPm6D9G8P4TUiTs9fFYRL8U', // ⬅️ METTI QUI IL PRICE ID
     category: 'office',
     guide: [
       'Ricevi il Product Key e il link per il download via email',
@@ -158,7 +158,7 @@ export const products: Product[] = [
     originalPrice: 79.90,
     salePrice: 24.90,
     discountPercent: 69,
-    priceId: 'price_OFFICE_2024_PRO', // ⬅️ METTI QUI IL PRICE ID
+    priceId: 'price_1TPm8e9G8P4TUiTsYaTAeqii', // ⬅️ METTI QUI IL PRICE ID
     category: 'office',
     guide: [
       'Ricevi il Product Key e il link per il download via email',
@@ -195,9 +195,9 @@ export const products: Product[] = [
     ],
     image: '/products/win11-pro-office21.webp',
     originalPrice: 109.80,
-    salePrice: 19.90,
+    salePrice: 24.90,
     discountPercent: 82,
-    priceId: 'price_BUNDLE_WIN11_OFFICE21', // ⬅️ METTI QUI IL PRICE ID
+    priceId: 'price_1TPmHZ9G8P4TUiTsRkafxzmi', // ⬅️ METTI QUI IL PRICE ID
     category: 'bundle',
     guide: [
       'Ricevi 2 Product Key separati via email (Windows + Office)',
@@ -234,7 +234,7 @@ export const products: Product[] = [
     originalPrice: 139.80,
     salePrice: 29.90,
     discountPercent: 79,
-    priceId: 'price_BUNDLE_WIN11_OFFICE24', // ⬅️ METTI QUI IL PRICE ID
+    priceId: 'price_1TPmJ29G8P4TUiTsg6KdqipT', // ⬅️ METTI QUI IL PRICE ID
     category: 'bundle',
     guide: [
       'Ricevi 2 Product Key separati via email (Windows + Office)',
@@ -272,7 +272,7 @@ export const products: Product[] = [
     originalPrice: 39.90,
     salePrice: 9.90,
     discountPercent: 75,
-    priceId: 'price_MCAFEE_AV_PLUS', // ⬅️ METTI QUI IL PRICE ID
+    priceId: 'price_1TPmEz9G8P4TUiTs0AM38h3w', // ⬅️ METTI QUI IL PRICE ID
     category: 'antivirus',
     guide: [
       'Ricevi il codice di attivazione via email dopo l\'acquisto',
@@ -308,7 +308,7 @@ export const products: Product[] = [
     originalPrice: 49.90,
     salePrice: 11.90,
     discountPercent: 76,
-    priceId: 'price_MCAFEE_TOTAL_1', // ⬅️ METTI QUI IL PRICE ID
+    priceId: 'price_1TQR2l9G8P4TUiTsuswk7j4t', // ⬅️ METTI QUI IL PRICE ID
     category: 'antivirus',
     guide: [
       'Ricevi il codice di attivazione via email dopo l\'acquisto',
@@ -381,7 +381,7 @@ export const products: Product[] = [
     originalPrice: 109.80,
     salePrice: 24.90,
     discountPercent: 77,
-    priceId: 'price_BUNDLE_WIN11_MCAFEE', // ⬅️ METTI QUI IL PRICE ID
+    priceId: 'price_1TUqrU9G8P4TUiTs091bA29H', // ⬅️ METTI QUI IL PRICE ID
     category: 'bundle',
     guide: [
       'Ricevi 2 codici separati via email (Windows + McAfee)',

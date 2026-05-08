@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
+import { emailTemplates } from "@/lib/emailTemplates"; // ⭐ IMPORTANTE
 
 export const config = {
   api: {
@@ -145,19 +146,24 @@ export default async function handler(req, res) {
       },
     });
 
-    // ⭐ INVIA UNA SOLA EMAIL CON UNA SOLA LICENZA
-    const emailText = `Grazie per il tuo acquisto!
+    // ⭐ TEMPLATE EMAIL AUTOMATICO
+    const templateKey = productName.toLowerCase().trim();
+    const template = emailTemplates[templateKey];
 
-Ecco la tua licenza per: ${productName}
+    if (!template) {
+      console.error("Template email non trovato per:", templateKey);
+      await sendEmail(
+        customerEmail,
+        "La tua licenza",
+        `Grazie per il tuo acquisto!\n\nLicenza: ${license.license}`
+      );
+      return res.status(200).json({ ok: true });
+    }
 
-${license.type}: ${license.license}
+    const emailText = template.buildMessage(license.license, productName);
 
-Se hai bisogno di aiuto, rispondi a questa email.
-
-KeySafeHub`;
-
-    await sendEmail(customerEmail, "La tua licenza", emailText);
-    console.log("Email inviata con successo!");
+    await sendEmail(customerEmail, template.subject, emailText);
+    console.log("Email inviata con template:", templateKey);
   } catch (err) {
     console.error("ERRORE WEBHOOK:", err.message);
     return res.status(500).send("Internal Server Error");

@@ -55,10 +55,12 @@ const faqs = [
     question: 'Cosa succede se formatto il PC?',
     answer: 'Se formatti il PC e reinstalli lo stesso sistema operativo, puoi riutilizzare la stessa licenza. Windows memorizza l\'attivazione legata all\'hardware del computer. In caso di cambio significativo dell\'hardware, contattaci per assistenza.'
   },
-  {
-    question: 'Le licenze sono legali?',
-    answer: 'Sì, assolutamente. Tutte le licenze fornite da KeySafeHub sono completamente legali e conformi alla normativa vigente in quanto si tratta di licenze ESD (Electronic Software Delivery) che, ai sensi della storica sentenza della Corte di Giustizia Europea (C-128/11), possono essere legittimamente rivendute all'interno dell'Unione Europea. Operiamo nel pieno rispetto del principio di esaurimento del diritto di distribuzione e della Direttiva 2009/24/CE, garantendo esclusivamente licenze autentiche, mai utilizzate e verificate per un'attivazione sicura direttamente dai canali ufficiali del produttore. Scegliere KeySafeHub significa affidarsi a un rivenditore che tutela il consumatore attraverso il rigoroso rispetto delle leggi europee, assicurando un prodotto originale, perpetuo e privo di qualsiasi rischio legale.'
-  },
+ {
+  question: "Le licenze sono legali?",
+  answer:
+    "Sì, assolutamente. Tutte le licenze fornite da KeySafeHub sono completamente legali e conformi alla normativa vigente, in quanto si tratta di licenze ESD (Electronic Software Delivery) che, ai sensi della sentenza della Corte di Giustizia Europea C-128/11, possono essere legittimamente rivendute all'interno dell'Unione Europea. Operiamo nel pieno rispetto della Direttiva 2009/24/CE e del principio di esaurimento del diritto di distribuzione, garantendo esclusivamente licenze autentiche e verificabili.",
+},
+
 ]
 
 export default function FAQPage() {

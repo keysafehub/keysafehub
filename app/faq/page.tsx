@@ -24,6 +24,10 @@ const faqs = [
     answer: 'Dopo aver completato il pagamento con Stripe, riceverai immediatamente un\'email contenente il codice di licenza (product key) e le istruzioni dettagliate per l\'attivazione. Il processo è completamente automatizzato e la consegna avviene in pochi secondi.'
   },
   {
+  question: 'Perché i vostri prezzi sono così convenienti?',
+    answer: 'I nostri prezzi sono competitivi perché applichiamo un modello di business basato sul recupero di licenze dismesse da aziende che non le utilizzano più, ad esempio a causa di passaggi a sistemi cloud o eccedenze di stock. Grazie alla normativa UE sulla libera circolazione dei beni digitali, siamo in grado di rimettere queste licenze originali sul mercato a una frazione del costo di listino ufficiale. Questo processo ci permette di offrire al cliente finale un risparmio notevole garantendo al contempo l\'assoluta autenticità e validità del software.'
+  },
+  {
     question: 'Quanto dura la licenza?',
     answer: 'Tutte le nostre licenze sono perpetue, ovvero valide a vita. Non si tratta di abbonamenti e non ci sono rinnovi automatici. Una volta acquistata, la licenza è tua per sempre e puoi utilizzarla senza limiti di tempo.'
   },
@@ -53,7 +57,7 @@ const faqs = [
   },
   {
     question: 'Le licenze sono legali?',
-    answer: 'Sì, le nostre licenze sono completamente legali. Si tratta di licenze ESD (Electronic Software Delivery) che, secondo la sentenza della Corte di Giustizia Europea, possono essere legalmente rivendute. KeySafeHub vende esclusivamente licenze autentiche, non utilizzate e conformi alla normativa vigente.'
+    answer: 'Sì, assolutamente. Tutte le licenze fornite da KeySafeHub sono completamente legali e conformi alla normativa vigente in quanto si tratta di licenze ESD (Electronic Software Delivery) che, ai sensi della storica sentenza della Corte di Giustizia Europea (C-128/11), possono essere legittimamente rivendute all'interno dell'Unione Europea. Operiamo nel pieno rispetto del principio di esaurimento del diritto di distribuzione e della Direttiva 2009/24/CE, garantendo esclusivamente licenze autentiche, mai utilizzate e verificate per un'attivazione sicura direttamente dai canali ufficiali del produttore. Scegliere KeySafeHub significa affidarsi a un rivenditore che tutela il consumatore attraverso il rigoroso rispetto delle leggi europee, assicurando un prodotto originale, perpetuo e privo di qualsiasi rischio legale.'
   },
 ]
 

@@ -16,7 +16,6 @@ const reviews = [
     id: 1,
     text: 'Servizio rapido, licenza arrivata in pochi secondi. Ho attivato Windows 11 Pro senza problemi. Consigliatissimo!',
     author: 'Marco R.',
-    location: 'Milano',
     rating: 5,
     product: 'Windows 11 Pro',
     verified: true
@@ -25,74 +24,90 @@ const reviews = [
     id: 2,
     text: 'Prezzi ottimi e attivazione immediata. Ero scettico inizialmente ma tutto ha funzionato perfettamente.',
     author: 'Laura P.',
-    location: 'Roma',
     rating: 5,
     product: 'Office 2021 Professional Plus',
     verified: true
   },
   {
     id: 3,
-    text: 'Supporto clienti molto disponibile. Ho avuto un problema minore e mi hanno risposto in poche ore risolvendolo.',
+    text: 'Supporto clienti molto disponibile. Ho avuto un problema minore con l\'installazione e mi hanno risposto in un paio d\'ore risolvendo tutto.',
     author: 'Giuseppe M.',
-    location: 'Napoli',
     rating: 4,
     product: 'Bundle Windows + Office',
     verified: true
   },
   {
     id: 4,
-    text: 'Ottimo rapporto qualità prezzo. Licenza originale e funzionante. La uso da 6 mesi senza problemi.',
+    text: 'Ottimo rapporto qualità prezzo. Licenza originale e funzionante. La uso da mesi senza alcun tipo di errore.',
     author: 'Francesca L.',
-    location: 'Torino',
     rating: 5,
     product: 'Windows 11 Pro',
     verified: true
   },
   {
     id: 5,
-    text: 'Acquisto semplice e veloce. Email con la chiave arrivata immediatamente dopo il pagamento.',
+    text: 'Acquisto semplice. L\'email con la chiave è arrivata subito, anche se inizialmente era finita nella cartella spam.',
     author: 'Alessandro T.',
-    location: 'Bologna',
-    rating: 5,
+    rating: 4,
     product: 'Office 2024 Professional Plus',
     verified: true
   },
   {
     id: 6,
-    text: 'Secondo acquisto su questo sito. Sempre affidabili e con prezzi competitivi.',
+    text: 'Secondo acquisto su questo sito. Sempre affidabili e con prezzi competitivi rispetto alla concorrenza.',
     author: 'Chiara B.',
-    location: 'Firenze',
     rating: 5,
     product: 'Bundle Windows + Office',
     verified: true
   },
   {
     id: 7,
-    text: 'Ho consigliato KeySafeHub a tutti i miei amici. Servizio eccellente e licenze genuine.',
+    text: 'Tutto bene, licenza Home attivata subito. Avrei preferito una guida leggermente più dettagliata per il download, ma il supporto ha chiarito i dubbi.',
     author: 'Roberto C.',
-    location: 'Palermo',
-    rating: 5,
+    rating: 4,
     product: 'Windows 11 Home',
     verified: true
   },
   {
     id: 8,
-    text: 'Finalmente un sito serio per le licenze software. Prezzi onesti e assistenza disponibile.',
+    text: 'Finalmente un sito serio per le licenze software. Prezzi onesti e assistenza realmente disponibile via chat.',
     author: 'Valentina G.',
-    location: 'Verona',
     rating: 5,
     product: 'Office 2021 Professional Plus',
     verified: true
   },
   {
     id: 9,
-    text: 'Attivazione riuscita al primo tentativo. Molto soddisfatto dell\'acquisto.',
+    text: 'Attivazione riuscita al primo tentativo. Molto soddisfatto dell\'acquisto, risparmio notevole.',
     author: 'Stefano N.',
-    location: 'Genova',
     rating: 5,
     product: 'Windows 11 Pro',
     verified: true
   },
+  {
+    id: 10,
+    text: 'Chiave di licenza ricevuta istantaneamente. Il link di download era corretto e l\'installazione di Office è andata liscia.',
+    author: 'Daniele V.',
+    rating: 5,
+    product: 'Office 2021 Professional Plus',
+    verified: true
+  },
+  {
+    id: 11,
+    text: 'Procedura di acquisto chiara. Ho dovuto attendere qualche minuto in più per l\'email, ma il codice era perfettamente funzionante.',
+    author: 'Elena S.',
+    rating: 4,
+    product: 'Windows 11 Home',
+    verified: true
+  },
+  {
+    id: 12,
+    text: 'Sito affidabile. Licenza valida a vita come promesso. Ho aggiornato da Windows 10 a 11 senza formattare.',
+    author: 'Matteo F.',
+    rating: 5,
+    product: 'Windows 11 Pro',
+    verified: true
+  }
 ]
 
 export default function RecensioniPage() {
@@ -144,8 +159,11 @@ export default function RecensioniPage() {
 
                 {/* Stars */}
                 <div className="flex items-center gap-1 mb-4">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-azure text-azure" />
+                  {[...Array(5)].map((_, i) => (
+                    <Star 
+                      key={i} 
+                      className={`h-4 w-4 ${i < review.rating ? 'fill-azure text-azure' : 'text-muted/30'}`} 
+                    />
                   ))}
                 </div>
 
@@ -160,10 +178,9 @@ export default function RecensioniPage() {
                 </p>
 
                 {/* Author */}
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between border-t border-border/30 pt-4">
                   <div>
                     <p className="text-sm font-medium text-foreground">{review.author}</p>
-                    <p className="text-xs text-muted-foreground">{review.location}</p>
                   </div>
                   {review.verified && (
                     <div className="flex items-center gap-1 text-xs text-azure">

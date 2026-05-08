@@ -1,7 +1,7 @@
 import Stripe from "stripe";
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
-import { emailTemplates } from "@/lib/emailTemplates"; // ⭐ IMPORTANTE
+import { emailTemplates } from "/lib/emailTemplates"; // ⭐ IMPORTANTE
 
 export const config = {
   api: {

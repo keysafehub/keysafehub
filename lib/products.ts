@@ -344,7 +344,7 @@ export const products: Product[] = [
     originalPrice: 89.90,
     salePrice: 22.90,
     discountPercent: 75,
-    priceId: 'price_1TSee09G8P4TUiTsS1pIRIZM', // ⬅️ METTI QUI IL PRICE ID
+    priceId: 'price_1TQR7Q9G8P4TUiTsJCCadQpd', // ⬅️ METTI QUI IL PRICE ID
     category: 'antivirus',
     guide: [
       'Ricevi il codice di attivazione via email dopo l\'acquisto',

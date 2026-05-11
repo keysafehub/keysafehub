@@ -23,36 +23,52 @@ const reviews = [
 export default function RecensioniPage() {
   const [rating, setRating] = useState(0)
   const [hover, setHover] = useState(0)
-  const [status, setStatus] = useState<'idle' | 'success'>('idle')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    
+    setStatus('sending')
+
     const formData = new FormData(e.currentTarget)
-    const nome = formData.get('nome')
-    const messaggio = formData.get('messaggio')
+    const nomeCliente = formData.get('nome')
+    const testoMessaggio = formData.get('messaggio')
 
-    // Costruiamo il link mailto
-    const subject = encodeURIComponent(`Nuova Recensione da ${nome}`)
-    const body = encodeURIComponent(
-      `Nome Cliente: ${nome}\n` +
-      `Valutazione: ${rating}/5 stelle\n\n` +
-      `Testo Recensione:\n${messaggio}\n\n` +
-      `--- Messaggio inviato dal modulo recensioni KeySafeHub ---`
-    )
+    // CREIAMO IL PACCHETTO DATI UGUALE AL FORM CONTATTI
+    // Usiamo i nomi dei campi che la tua API si aspetta sicuramente
+    const data = {
+      name: nomeCliente,
+      email: 'recensioni@keysafehub.eu', // Usiamo la mail recensioni come mittente/segnaposto
+      message: `VALUTAZIONE: ${rating}/5 STELLE\n\nMessaggio: ${testoMessaggio}`,
+      subject: `Nuova Recensione da ${nomeCliente}`
+    }
 
-    // Reindirizza al client mail
-    window.location.href = `mailto:recensioni@keysafehub.eu?subject=${subject}&body=${body}`
-    
-    // Mostriamo il messaggio di successo sul sito
-    setStatus('success')
+    try {
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+
+      if (response.ok) {
+        setStatus('success')
+        setRating(0)
+        e.currentTarget.reset()
+      } else {
+        setStatus('error')
+      }
+    } catch (err) {
+      setStatus('error')
+    }
   }
 
   return (
     <>
-      <PageHeader title="Recensioni Clienti" description="Scopri cosa pensano di noi i nostri clienti soddisfatti" />
+      <PageHeader 
+        title="Recensioni Clienti" 
+        description="Scopri cosa pensano di noi i nostri clienti soddisfatti" 
+      />
 
-      {/* Stats Section */}
+      {/* Stats */}
       <section className="py-12 bg-secondary/50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -71,8 +87,8 @@ export default function RecensioniPage() {
         </div>
       </section>
 
-      {/* Reviews Grid */}
-      <section className="py-16 bg-background">
+      {/* Grid Recensioni */}
+      <section className="py-16 lg:py-24 bg-background">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
             {reviews.map((review) => (
@@ -92,29 +108,33 @@ export default function RecensioniPage() {
             ))}
           </div>
 
-          {/* Form */}
+          {/* Form Invio Automatico */}
           <div className="max-w-2xl mx-auto">
             {status === 'success' ? (
               <div className="text-center py-12 bg-card rounded-3xl border-2 border-green-500/20 shadow-xl">
                 <CheckCircle className="h-20 w-20 text-green-500 mx-auto mb-6" />
-                <h2 className="text-2xl font-bold text-foreground mb-2">Recensione Pronta!</h2>
-                <p className="text-muted-foreground px-6">Controlla il tuo client email per confermare l&apos;invio. La pubblicheremo a breve.</p>
-                <button onClick={() => setStatus('idle')} className="mt-8 text-azure font-semibold hover:underline">Scrivine un&apos;altra</button>
+                <h2 className="text-2xl font-bold text-foreground mb-2">Recensione Inviata!</h2>
+                <p className="text-muted-foreground px-6">La tua recensione è stata inviata e sarà pubblicata a breve.</p>
+                <button onClick={() => setStatus('idle')} className="mt-8 text-azure font-semibold hover:underline">Inviane un&apos;altra</button>
               </div>
             ) : (
               <div className="bg-card rounded-3xl border-2 border-azure/10 p-8 md:p-10 shadow-2xl">
                 <div className="flex items-center gap-4 mb-8">
-                  <div className="p-3 bg-azure/10 rounded-2xl"><MessageSquare className="h-6 w-6 text-azure" /></div>
+                  <div className="p-3 bg-azure/10 rounded-2xl">
+                    <MessageSquare className="h-6 w-6 text-azure" />
+                  </div>
                   <div>
                     <h2 className="text-2xl font-bold text-foreground">Lascia la tua recensione</h2>
-                    <p className="text-sm text-muted-foreground">Verrà aggiunta a questa pagina dopo la verifica.</p>
+                    <p className="text-sm text-muted-foreground">La tua recensione verrà pubblicata dopo la verifica.</p>
                   </div>
                 </div>
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label className="block text-sm font-bold text-foreground mb-2">Nome e Cognome *</label>
                     <input name="nome" required type="text" className="w-full px-4 py-3 rounded-xl border border-border bg-background outline-none focus:ring-2 focus:ring-azure/20 transition-all" placeholder="Es: Mario Rossi" />
                   </div>
+
                   <div>
                     <label className="block text-sm font-bold text-foreground mb-2">Valutazione *</label>
                     <div className="flex gap-2">
@@ -125,13 +145,16 @@ export default function RecensioniPage() {
                       ))}
                     </div>
                   </div>
+
                   <div>
-                    <label className="block text-sm font-bold text-foreground mb-2">Messaggio (max 200 caratteri) *</label>
+                    <label className="block text-sm font-bold text-foreground mb-2">Messaggio (max 200) *</label>
                     <textarea name="messaggio" required maxLength={200} rows={4} className="w-full px-4 py-3 rounded-xl border border-border bg-background resize-none outline-none focus:ring-2 focus:ring-azure/20 transition-all" placeholder="Raccontaci la tua esperienza..." />
                   </div>
-                  <button type="submit" disabled={!rating} className="w-full py-4 bg-azure text-white font-bold rounded-xl shadow-lg hover:bg-azure/90 transition-all disabled:opacity-50 flex items-center justify-center gap-3">
-                    <Send className="h-4 w-4" /> Invia Recensione
+
+                  <button type="submit" disabled={!rating || status === 'sending'} className="w-full py-4 bg-azure text-white font-bold rounded-xl shadow-lg hover:bg-azure/90 transition-all disabled:opacity-50 flex items-center justify-center gap-3">
+                    {status === 'sending' ? 'Invio in corso...' : <><Send className="h-4 w-4" /> Invia Ora</>}
                   </button>
+                  {status === 'error' && <p className="text-red-500 text-sm text-center">Errore nell&apos;invio. Riprova più tardi.</p>}
                 </form>
               </div>
             )}

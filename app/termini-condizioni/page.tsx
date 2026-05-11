@@ -127,10 +127,11 @@ export default function TerminiCondizioniPage() {
               <section>
                 <h2 className="text-2xl font-bold text-foreground mb-4">10. Proprietà Intellettuale</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  Microsoft Windows e Microsoft Office sono marchi registrati di Microsoft Corporation. 
-                  KeySafeHub è un rivenditore autorizzato di licenze ESD e non è affiliato a Microsoft. 
-                  Tutti i contenuti del sito (testi, grafica, loghi) sono di proprietà di KeySafeHub 
-                  e sono protetti dalle leggi sul diritto d&apos;autore.
+                  I nomi dei prodotti e i loghi Microsoft, Windows e Office sono marchi registrati di Microsoft Corporation. 
+                  L&apos;utilizzo di tali marchi, nomi o immagini su questo sito avviene esclusivamente a scopo informativo 
+                  e per identificare la compatibilità o l&apos;oggetto della licenza venduta, senza implicare alcuna affiliazione 
+                  diretta o violazione del copyright. Tutti i contenuti originali del sito (testi, grafica, loghi KeySafeHub) 
+                  sono di nostra proprietà.
                 </p>
               </section>
 
@@ -172,6 +173,26 @@ export default function TerminiCondizioniPage() {
                   <a href="mailto:support@keysafehub.eu" className="text-azure hover:underline ml-1">support@keysafehub.eu</a>
                 </p>
               </section>
+
+              {/* --- NUOVA SEZIONE LEGALE AGGIUNTA --- */}
+              <section className="mt-12 pt-8 border-t border-border">
+                <h2 className="text-xl font-bold text-foreground mb-4 italic">15. Conformità Legale Europea (Sentenza C-128/11)</h2>
+                <div className="bg-muted/30 p-6 rounded-lg border border-border">
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    <strong>KEYSAFEHUB</strong> RISPETTA LE NORME E LE LEGGI EUROPEE RELATIVE ALLA RIVENDITA DEL SOFTWARE: 
+                    Sentenza della Corte di Giustizia dell&apos;Unione Europea <strong>C-128/11 del 3 luglio 2012</strong> e C.E. C-128/2011. 
+                    Questa giurisprudenza conferma la legittimità della rivendita di licenze software &quot;usate&quot; o precedentemente 
+                    immesse sul mercato UE.
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-4">
+                    Tutti i Marchi sono di proprietà dei legittimi Proprietari; Marchi di Terze Parti, nomi di Prodotti, 
+                    nomi Commerciali, Descrizioni/Immagini di Prodotti, nomi di Società e Società qui menzionate possono 
+                    essere Marchi dei rispettivi Proprietari o Marchi di altre Società, utilizzati esclusivamente a scopo 
+                    Informativo e per il Beneficio del Proprietario senza implicare una Violazione del Copyright.
+                  </p>
+                </div>
+              </section>
+
             </div>
           </div>
         </div>

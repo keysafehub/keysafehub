@@ -20,8 +20,8 @@ const reviews = [
   { id: 12, text: "Sito affidabile. Licenza valida a vita come promesso. Ho aggiornato da Windows 10 a 11 senza formattare.", author: "Matteo F.", rating: 5, product: "Windows 11 Pro", verified: true }
 ]
 
-// --- COMPONENTE DEL MODULO ---
-function ReviewForm() {
+// --- COMPONENTE DELLA PAGINA ---
+export default function RecensioniPage() {
   const [rating, setRating] = useState(0)
   const [hover, setHover] = useState(0)
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
@@ -35,7 +35,7 @@ function ReviewForm() {
       nome: formData.get('nome'),
       valutazione: rating,
       messaggio: formData.get('messaggio'),
-      destinatario: 'recensioni@keysafehub.eu'
+      destinatario: 'recensioni@keysafehub.eu' // Indica al backend dove mandare questa specifica mail
     }
 
     try {
@@ -55,80 +55,6 @@ function ReviewForm() {
     }
   }
 
-  if (status === 'success') {
-    return (
-      <div className="text-center py-12 bg-card rounded-3xl border-2 border-green-500/20 shadow-xl">
-        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <CheckCircle className="h-10 w-10 text-green-600" />
-        </div>
-        <h2 className="text-2xl font-bold text-foreground mb-2">Recensione Inviata!</h2>
-        <p className="text-muted-foreground px-6">
-          Grazie per il tuo feedback. Verrà aggiunto alla pagina recensioni dopo l&apos;approvazione.
-        </p>
-        <button onClick={() => setStatus('idle')} className="mt-8 text-azure font-semibold hover:underline">
-          Inviane un&apos;altra
-        </button>
-      </div>
-    )
-  }
-
-  return (
-    <div className="bg-card rounded-3xl border-2 border-azure/10 p-8 md:p-10 shadow-2xl">
-      <div className="flex items-center gap-4 mb-8">
-        <div className="p-3 bg-azure/10 rounded-2xl">
-          <MessageSquare className="h-6 w-6 text-azure" />
-        </div>
-        <div>
-          <h2 className="text-2xl font-bold text-foreground">Lascia la tua recensione</h2>
-          <p className="text-sm text-muted-foreground">La tua recensione verrà pubblicata su questa pagina.</p>
-        </div>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block text-sm font-bold text-foreground mb-2">Nome e Cognome *</label>
-          <input name="nome" required type="text" className="w-full px-4 py-3 rounded-xl border border-border bg-background outline-none focus:ring-2 focus:ring-azure/20 transition-all" placeholder="Es: Mario Rossi" />
-        </div>
-
-        <div>
-          <label className="block text-sm font-bold text-foreground mb-2">Valutazione *</label>
-          <div className="flex gap-2">
-            {[1, 2, 3, 4, 5].map((s) => (
-              <button 
-                key={s} 
-                type="button" 
-                onClick={() => setRating(s)} 
-                onMouseEnter={() => setHover(s)} 
-                onMouseLeave={() => setHover(0)}
-                className="focus:outline-none transition-transform hover:scale-110"
-              >
-                <Star className={`h-9 w-9 transition-all ${(hover || rating) >= s ? 'fill-azure text-azure' : 'text-muted-foreground/20 stroke-[1.5px]'}`} />
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-bold text-foreground mb-2">Messaggio (max 200 caratteri) *</label>
-          <textarea name="messaggio" required maxLength={200} rows={4} className="w-full px-4 py-3 rounded-xl border border-border bg-background resize-none outline-none focus:ring-2 focus:ring-azure/20 transition-all" placeholder="Raccontaci la tua esperienza..." />
-        </div>
-
-        <button 
-          type="submit" 
-          disabled={!rating || status === 'sending'} 
-          className="w-full py-4 bg-azure text-white font-bold rounded-xl shadow-lg hover:bg-azure/90 transition-all disabled:opacity-50 flex items-center justify-center gap-3"
-        >
-          {status === 'sending' ? 'Invio in corso...' : (
-            <>Invia Recensione <Send className="h-4 w-4" /></>
-          )}
-        </button>
-      </form>
-    </div>
-  )
-}
-
-// --- PAGINA PRINCIPALE ---
-export default function RecensioniPage() {
   return (
     <>
       <PageHeader 
@@ -136,6 +62,7 @@ export default function RecensioniPage() {
         description="Scopri cosa pensano di noi i nostri clienti soddisfatti" 
       />
 
+      {/* Stats */}
       <section className="py-12 bg-secondary/50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -154,6 +81,7 @@ export default function RecensioniPage() {
         </div>
       </section>
 
+      {/* Grid */}
       <section className="py-16 lg:py-24 bg-background">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
@@ -174,8 +102,52 @@ export default function RecensioniPage() {
             ))}
           </div>
 
+          {/* Form Integrato */}
           <div className="max-w-2xl mx-auto">
-            <ReviewForm />
+            {status === 'success' ? (
+              <div className="text-center py-12 bg-card rounded-3xl border-2 border-green-500/20 shadow-xl">
+                <CheckCircle className="h-20 w-20 text-green-500 mx-auto mb-6" />
+                <h2 className="text-2xl font-bold text-foreground mb-2">Recensione Inviata!</h2>
+                <p className="text-muted-foreground px-6">Grazie. Verrà aggiunta alla pagina dopo l&apos;approvazione.</p>
+                <button onClick={() => setStatus('idle')} className="mt-8 text-azure font-semibold hover:underline">Inviane un&apos;altra</button>
+              </div>
+            ) : (
+              <div className="bg-card rounded-3xl border-2 border-azure/10 p-8 md:p-10 shadow-2xl">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="p-3 bg-azure/10 rounded-2xl">
+                    <MessageSquare className="h-6 w-6 text-azure" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-foreground">Lascia la tua recensione</h2>
+                    <p className="text-sm text-muted-foreground">La tua recensione verrà pubblicata dopo la verifica.</p>
+                  </div>
+                </div>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-bold text-foreground mb-2">Nome e Cognome *</label>
+                    <input name="nome" required type="text" className="w-full px-4 py-3 rounded-xl border border-border bg-background outline-none focus:ring-2 focus:ring-azure/20 transition-all" placeholder="Es: Mario Rossi" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-foreground mb-2">Valutazione *</label>
+                    <div className="flex gap-2">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <button key={s} type="button" onClick={() => setRating(s)} onMouseEnter={() => setHover(s)} onMouseLeave={() => setHover(0)} className="focus:outline-none transition-transform hover:scale-110">
+                          <Star className={`h-9 w-9 transition-all ${(hover || rating) >= s ? 'fill-azure text-azure' : 'text-muted-foreground/30 stroke-[1.5px]'}`} />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-foreground mb-2">Messaggio (max 200 caratteri) *</label>
+                    <textarea name="messaggio" required maxLength={200} rows={4} className="w-full px-4 py-3 rounded-xl border border-border bg-background resize-none outline-none focus:ring-2 focus:ring-azure/20 transition-all" placeholder="Raccontaci la tua esperienza..." />
+                  </div>
+                  <button type="submit" disabled={!rating || status === 'sending'} className="w-full py-4 bg-azure text-white font-bold rounded-xl shadow-lg hover:bg-azure/90 transition-all disabled:opacity-50 flex items-center justify-center gap-3">
+                    {status === 'sending' ? 'Invio...' : <><Send className="h-4 w-4" /> Invia Recensione</>}
+                  </button>
+                  {status === 'error' && <p className="text-red-500 text-sm text-center">Errore nell&apos;invio. Riprova.</p>}
+                </form>
+              </div>
+            )}
           </div>
         </div>
       </section>

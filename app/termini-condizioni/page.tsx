@@ -175,18 +175,18 @@ export default function TerminiCondizioniPage() {
               </section>
 
               <section>
-                <h2 className="text-2xl font-bold text-foreground mb-4 italic">15. Conformità Legale Europea (Sentenza C-128/11)</h2>
+                <h2 className="text-2xl font-bold text-foreground mb-4">15. Conformità Legale Europea (Sentenza C-128/11)</h2>
                 <p className="text-muted-foreground leading-relaxed mb-6">
-                  <strong>KEYSAFEHUB</strong> RISPETTA LE NORME E LE LEGGI EUROPEE RELATIVE ALLA RIVENDITA DEL SOFTWARE: 
-                  Sentenza della Corte di Giustizia dell&apos;Unione Europea <strong>C-128/11 del 3 luglio 2012</strong> e C.E. C-128/2011. 
+                  KEYSAFEHUB RISPETTA LE NORME E LE LEGGI EUROPEE RELATIVE ALLA RIVENDITA DEL SOFTWARE: 
+                  Sentenza della Corte di Giustizia dell&apos;Unione Europea C-128/11 del 3 luglio 2012 e C.E. C-128/2011. 
                   Questa giurisprudenza conferma la legittimità della rivendita di licenze software &quot;usate&quot; o precedentemente 
                   immesse sul mercato UE.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
-                  Tutti i Marchi sono di proprietà dei legittimi Proprietari; Marchi di Terze Parti, nomi di Prodotti, 
-                  nomi Commerciali, Descrizioni/Immagini di Prodotti, nomi di Società e Società qui menzionate possono 
-                  essere Marchi dei rispettivi Proprietari o Marchi di altre Società, utilizzati esclusivamente a scopo 
-                  Informativo e per il Beneficio del Proprietario senza implicare una Violazione del Copyright.
+                  Tutti i marchi sono di proprietà dei legittimi proprietari; marchi di terze parti, nomi di prodotti, 
+                  nomi commerciali, descrizioni/immagini di prodotti, nomi di società e società qui menzionate possono 
+                  essere marchi dei rispettivi proprietari o marchi di altre società, utilizzati esclusivamente a scopo 
+                  informativo e per il beneficio del proprietario senza implicare una violazione del copyright.
                 </p>
               </section>
 

@@ -381,7 +381,7 @@ export const products: Product[] = [
     originalPrice: 109.80,
     salePrice: 24.90,
     discountPercent: 77,
-    priceId: 'price_1TUqrU9G8P4TUiTs091bA29H', // ⬅️ METTI QUI IL PRICE ID
+    priceId: 'price_1TVyfg9G8P4TUiTsE8bJ0aJC', // ⬅️ METTI QUI IL PRICE ID
     category: 'bundle',
     guide: [
       'Ricevi 2 codici separati via email (Windows + McAfee)',

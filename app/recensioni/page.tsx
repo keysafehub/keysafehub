@@ -120,7 +120,7 @@ export default function RecensioniPage() {
         description="Scopri cosa pensano di noi i nostri clienti soddisfatti"
       />
 
-      {/* Stats Section */}
+      {/* Stats Section - Riordinata a 2 colonne senza tasso di soddisfazione */}
       <section className="py-12 bg-secondary/50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
@@ -144,7 +144,7 @@ export default function RecensioniPage() {
       {/* Reviews Grid */}
       <section className="py-16 lg:py-24 bg-background">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
             {reviews.map((review) => (
               <div
                 key={review.id}
@@ -155,47 +155,4 @@ export default function RecensioniPage() {
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star 
-                      key={i} 
-                      className={`h-4 w-4 ${i < review.rating ? 'fill-azure text-azure' : 'text-muted/30'}`} 
-                    />
-                  ))}
-                </div>
-
-                <span className="inline-block text-xs font-medium bg-secondary text-secondary-foreground px-2 py-1 rounded-full mb-3">
-                  {review.product}
-                </span>
-
-                <p className="text-foreground/90 leading-relaxed mb-4">
-                  &ldquo;{review.text}&rdquo;
-                </p>
-
-                <div className="flex items-center justify-between border-t border-border/30 pt-4">
-                  <div>
-                    <p className="text-sm font-medium text-foreground">{review.author}</p>
-                  </div>
-                  {review.verified && (
-                    <div className="flex items-center gap-1 text-xs text-azure">
-                      <CheckCircle className="h-4 w-4" />
-                      <span>Verificato</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Nuova Sezione: Invia Recensione */}
-          <div className="max-w-3xl mx-auto">
-            <div className="bg-azure/5 rounded-3xl border border-azure/20 p-8 md:p-12 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-azure/10 mb-6">
-                <Mail className="h-8 w-8 text-azure" />
-              </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-                La tua opinione è importante
-              </h2>
-              <p className="text-muted-foreground mb-8 text-lg">
-                Hai acquistato una licenza su KeySafeHub? Condividi la tua esperienza con noi e aiuta altri utenti a scegliere il meglio.
-              </p>
-              <a 
-                href="mailto:recensioni@keysafehub.eu?subject=Recensione%20KeySafeHub" 
-                className="inline-flex items-center justify-center px-8 py-4 bg-azure text-white font-bold rounded-xl hover
+                      key={i}

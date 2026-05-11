@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { PageHeader } from '@/components/page-header'
-import { Star, Quote, CheckCircle } from 'lucide-react'
+import { Star, Quote, CheckCircle, Mail } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Recensioni Clienti',
@@ -123,7 +123,7 @@ export default function RecensioniPage() {
       {/* Stats Section */}
       <section className="py-12 bg-secondary/50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
             <div>
               <div className="flex items-center justify-center gap-1 mb-2">
                 {[...Array(5)].map((_, i) => (
@@ -137,10 +137,6 @@ export default function RecensioniPage() {
               <p className="text-3xl font-bold text-foreground mb-2">10.000+</p>
               <p className="text-sm text-muted-foreground">Clienti soddisfatti</p>
             </div>
-            <div>
-              <p className="text-3xl font-bold text-foreground mb-2">98%</p>
-              <p className="text-sm text-muted-foreground">Tasso di soddisfazione</p>
-            </div>
           </div>
         </div>
       </section>
@@ -148,16 +144,14 @@ export default function RecensioniPage() {
       {/* Reviews Grid */}
       <section className="py-16 lg:py-24 bg-background">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
             {reviews.map((review) => (
               <div
                 key={review.id}
                 className="relative p-6 rounded-2xl bg-card border border-border/50 hover:border-azure/30 hover:shadow-lg transition-all duration-300"
               >
-                {/* Quote Icon */}
                 <Quote className="absolute top-4 right-4 h-8 w-8 text-azure/20" />
 
-                {/* Stars */}
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star 
@@ -167,17 +161,14 @@ export default function RecensioniPage() {
                   ))}
                 </div>
 
-                {/* Product Badge */}
                 <span className="inline-block text-xs font-medium bg-secondary text-secondary-foreground px-2 py-1 rounded-full mb-3">
                   {review.product}
                 </span>
 
-                {/* Review Text */}
                 <p className="text-foreground/90 leading-relaxed mb-4">
                   &ldquo;{review.text}&rdquo;
                 </p>
 
-                {/* Author */}
                 <div className="flex items-center justify-between border-t border-border/30 pt-4">
                   <div>
                     <p className="text-sm font-medium text-foreground">{review.author}</p>
@@ -192,8 +183,19 @@ export default function RecensioniPage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-    </>
-  )
-}
+
+          {/* Nuova Sezione: Invia Recensione */}
+          <div className="max-w-3xl mx-auto">
+            <div className="bg-azure/5 rounded-3xl border border-azure/20 p-8 md:p-12 text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-azure/10 mb-6">
+                <Mail className="h-8 w-8 text-azure" />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+                La tua opinione è importante
+              </h2>
+              <p className="text-muted-foreground mb-8 text-lg">
+                Hai acquistato una licenza su KeySafeHub? Condividi la tua esperienza con noi e aiuta altri utenti a scegliere il meglio.
+              </p>
+              <a 
+                href="mailto:recensioni@keysafehub.eu?subject=Recensione%20KeySafeHub" 
+                className="inline-flex items-center justify-center px-8 py-4 bg-azure text-white font-bold rounded-xl hover

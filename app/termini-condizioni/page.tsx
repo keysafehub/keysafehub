@@ -174,25 +174,20 @@ export default function TerminiCondizioniPage() {
                 </p>
               </section>
 
-              {/* --- PUNTO 15 CORRETTO E UNIFORMATO --- */}
-              <section className="mt-12 pt-8 border-t border-border">
-                <h2 className="text-2xl font-bold text-foreground mb-4 italic">
-                  15. Conformità Legale Europea (Sentenza C-128/11)
-                </h2>
-                <div className="not-prose bg-muted/40 p-6 sm:p-8 rounded-xl border border-border">
-                  <p className="text-muted-foreground leading-relaxed mb-6">
-                    <strong>KEYSAFEHUB</strong> RISPETTA LE NORME E LE LEGGI EUROPEE RELATIVE ALLA RIVENDITA DEL SOFTWARE: 
-                    Sentenza della Corte di Giustizia dell&apos;Unione Europea <strong>C-128/11 del 3 luglio 2012</strong> e C.E. C-128/2011. 
-                    Questa giurisprudenza conferma la legittimità della rivendita di licenze software &quot;usate&quot; o precedentemente 
-                    immesse sul mercato UE.
-                  </p>
-                  <p className="text-muted-foreground leading-relaxed">
-                    Tutti i Marchi sono di proprietà dei legittimi Proprietari; Marchi di Terze Parti, nomi di Prodotti, 
-                    nomi Commerciali, Descrizioni/Immagini di Prodotti, nomi di Società e Società qui menzionate possono 
-                    essere Marchi dei rispettivi Proprietari o Marchi di altre Società, utilizzati esclusivamente a scopo 
-                    Informativo e per il Beneficio del Proprietario senza implicare una Violazione del Copyright.
-                  </p>
-                </div>
+              <section>
+                <h2 className="text-2xl font-bold text-foreground mb-4 italic">15. Conformità Legale Europea (Sentenza C-128/11)</h2>
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  <strong>KEYSAFEHUB</strong> RISPETTA LE NORME E LE LEGGI EUROPEE RELATIVE ALLA RIVENDITA DEL SOFTWARE: 
+                  Sentenza della Corte di Giustizia dell&apos;Unione Europea <strong>C-128/11 del 3 luglio 2012</strong> e C.E. C-128/2011. 
+                  Questa giurisprudenza conferma la legittimità della rivendita di licenze software &quot;usate&quot; o precedentemente 
+                  immesse sul mercato UE.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  Tutti i Marchi sono di proprietà dei legittimi Proprietari; Marchi di Terze Parti, nomi di Prodotti, 
+                  nomi Commerciali, Descrizioni/Immagini di Prodotti, nomi di Società e Società qui menzionate possono 
+                  essere Marchi dei rispettivi Proprietari o Marchi di altre Società, utilizzati esclusivamente a scopo 
+                  Informativo e per il Beneficio del Proprietario senza implicare una Violazione del Copyright.
+                </p>
               </section>
 
             </div>

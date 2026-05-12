@@ -2,10 +2,9 @@
 
 import React, { useState, useRef } from 'react'
 import { PageHeader } from '@/components/page-header'
-import { Star, CheckCircle, Send, MessageSquare, Loader2, Quote } from 'lucide-react'
+import { Star, CheckCircle, Send, MessageSquare, Loader2, Quote, Users } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 
-// LE TUE RECENSIONI
 const reviews = [
   { id: 1, text: "Servizio rapido, licenza arrivata in pochi secondi. Ho attivato Windows 11 Pro senza problemi. Consigliatissimo!", author: "Marco R.", rating: 5 },
   { id: 2, text: "Prezzi ottimi e attivazione immediata. Ero scettico inizialmente ma tutto ha funzionato perfettamente.", author: "Laura P.", rating: 5 },
@@ -29,12 +28,10 @@ export default function RecensioniPage() {
 
   const sendReview = async (e) => {
     e.preventDefault()
-    
     if (rating === 0) {
       alert("Per favore, seleziona una valutazione!")
       return
     }
-    
     setStatus('loading')
 
     const templateParams = {
@@ -44,44 +41,54 @@ export default function RecensioniPage() {
       rating: rating,
     }
 
-    emailjs.send(
-      'service_sdf5v7r',
-      'template_n4jq6o9',
-      templateParams,
-      'qZ_1lRdMAu5yNsOKq'
-    )
-    .then(() => {
-      setStatus('success')
-    })
-    .catch((err) => {
-      console.error('FAILED...', err)
-      setStatus('error')
-    })
+    emailjs.send('service_sdf5v7r', 'template_n4jq6o9', templateParams, 'qZ_1lRdMAu5yNsOKq')
+    .then(() => setStatus('success'))
+    .catch(() => setStatus('error'))
   }
 
   return (
     <>
-      <PageHeader title="Recensioni Clienti" description="Cosa dicono i nostri clienti" />
+      <PageHeader title="Recensioni Clienti" description="La trasparenza è alla base del nostro successo" />
 
-      <section className="py-16 bg-background">
+      <section className="py-12 bg-background">
         <div className="mx-auto max-w-7xl px-4">
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+          {/* STATISTICHE IN CIMA - MEDIA ABBASSATA A 4.8 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+            <div className="bg-azure/5 border border-azure/20 rounded-3xl p-8 flex items-center gap-6">
+              <div className="bg-azure text-white p-4 rounded-2xl shadow-lg shadow-azure/30">
+                <Star className="h-8 w-8 fill-current" />
+              </div>
+              <div>
+                <p className="text-4xl font-black text-foreground">4.8 / 5</p>
+                <p className="text-muted-foreground font-medium uppercase tracking-wider text-sm">Valutazione Media</p>
+              </div>
+            </div>
+
+            <div className="bg-green-500/5 border border-green-500/20 rounded-3xl p-8 flex items-center gap-6">
+              <div className="bg-green-500 text-white p-4 rounded-2xl shadow-lg shadow-green-500/30">
+                <Users className="h-8 w-8" />
+              </div>
+              <div>
+                <p className="text-4xl font-black text-foreground">+10.000</p>
+                <p className="text-muted-foreground font-medium uppercase tracking-wider text-sm">Clienti Soddisfatti</p>
+              </div>
+            </div>
+          </div>
+
+          {/* GRIGLIA RECENSIONI */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
             {reviews.map((r) => (
-              <div key={r.id} className="p-8 rounded-2xl bg-card border border-border shadow-sm hover:border-azure/30 transition-all relative overflow-hidden group">
+              <div key={r.id} className="p-8 rounded-2xl bg-card border border-border shadow-sm hover:border-azure/30 transition-all relative group">
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className={`h-4 w-4 ${i < r.rating ? 'fill-azure text-azure' : 'text-muted/20'}`} />
                   ))}
                 </div>
                 <Quote className="h-8 w-8 text-azure/5 absolute top-4 right-4" />
-                <p className="text-sm italic mb-6 leading-relaxed relative z-10 text-muted-foreground">
-                  &ldquo;{r.text}&rdquo;
-                </p>
-                <div className="flex items-center gap-2 pt-4 border-t border-border/50 text-xs font-bold text-foreground">
-                  <div className="w-6 h-6 rounded-full bg-azure/10 flex items-center justify-center text-azure text-[10px]">
-                    {r.author.charAt(0)}
-                  </div>
+                <p className="text-sm italic mb-6 leading-relaxed text-muted-foreground">&ldquo;{r.text}&rdquo;</p>
+                <div className="flex items-center gap-2 pt-4 border-t border-border/50 text-xs font-bold">
+                  <div className="w-6 h-6 rounded-full bg-azure/10 flex items-center justify-center text-azure text-[10px]">{r.author.charAt(0)}</div>
                   {r.author} <CheckCircle className="h-3 w-3 text-azure" />
                 </div>
               </div>
@@ -90,41 +97,49 @@ export default function RecensioniPage() {
 
           <hr className="border-border/50 mb-20" />
 
-          <div className="max-w-xl mx-auto bg-card rounded-[2rem] border border-border p-8 shadow-2xl">
+          {/* FORM DI INVIO CON STELLE VISIBILI */}
+          <div className="max-w-xl mx-auto bg-card rounded-[2.5rem] border border-border p-10 shadow-2xl relative overflow-hidden">
             {status === 'success' ? (
               <div className="text-center py-12">
-                <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle className="h-10 w-10 text-green-500" />
-                </div>
-                <h2 className="text-2xl font-bold mb-2">Inviata!</h2>
-                <button onClick={() => {setStatus('idle'); setRating(0)}} className="text-azure font-bold hover:underline">
-                  Scrivine un'altra
-                </button>
+                <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+                <h2 className="text-2xl font-bold">Inviata con successo!</h2>
+                <button onClick={() => {setStatus('idle'); setRating(0)}} className="mt-4 text-azure font-bold hover:underline">Scrivine un'altra</button>
               </div>
             ) : (
-              <form ref={formRef} onSubmit={sendReview} className="space-y-5">
-                <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                   <MessageSquare className="text-azure h-5 w-5" /> Lascia la tua recensione
-                </h2>
+              <form ref={formRef} onSubmit={sendReview} className="space-y-6">
+                <div className="text-center mb-8">
+                  <h2 className="text-2xl font-bold flex items-center justify-center gap-2">
+                    <MessageSquare className="text-azure h-6 w-6" /> Lascia il tuo Feedback
+                  </h2>
+                </div>
                 
-                <input name="user_name" required className="w-full p-4 rounded-xl border border-border bg-background outline-none" placeholder="Nome e Cognome" />
-                <input name="user_email" type="email" required className="w-full p-4 rounded-xl border border-border bg-background outline-none" placeholder="Tua Email" />
+                <div className="space-y-4">
+                  <input name="user_name" required className="w-full p-4 rounded-xl border border-border bg-background outline-none focus:ring-2 focus:ring-azure/20" placeholder="Nome e Cognome" />
+                  <input name="user_email" type="email" required className="w-full p-4 rounded-xl border border-border bg-background outline-none focus:ring-2 focus:ring-azure/20" placeholder="Tua Email" />
+                </div>
 
-                <div className="py-6 bg-secondary/20 rounded-2xl text-center">
-                  <p className="text-[10px] font-bold mb-3 uppercase tracking-widest text-muted-foreground">Valutazione</p>
-                  <div className="flex justify-center gap-2">
+                <div className="py-8 bg-secondary/20 rounded-3xl text-center border border-border/60 shadow-inner">
+                  <p className="text-xs font-black mb-4 uppercase tracking-widest text-muted-foreground">La tua Valutazione</p>
+                  <div className="flex justify-center gap-3">
                     {[1, 2, 3, 4, 5].map((s) => (
-                      <button key={s} type="button" onClick={() => setRating(s)} onMouseEnter={() => setHover(s)} onMouseLeave={() => setHover(0)}>
-                        <Star className={`h-10 w-10 ${(hover || rating) >= s ? 'fill-azure text-azure' : 'text-muted/20 stroke-[1.5px]'}`} />
+                      <button key={s} type="button" onClick={() => setRating(s)} onMouseEnter={() => setHover(s)} onMouseLeave={() => setHover(0)} className="transition-transform active:scale-90 hover:scale-110">
+                        <Star 
+                          className={`h-10 w-10 transition-all duration-200 ${
+                            (hover || rating) >= s 
+                            ? 'fill-azure text-azure' 
+                            : 'text-azure/30 stroke-azure stroke-[2px] bg-azure/5 rounded-full p-1' 
+                          }`} 
+                        />
                       </button>
                     ))}
                   </div>
+                  {rating > 0 && <p className="text-azure text-xs font-bold mt-3 animate-pulse">Hai selezionato {rating} stelle</p>}
                 </div>
 
-                <textarea name="message" required rows={4} className="w-full p-4 rounded-xl border border-border bg-background resize-none outline-none" placeholder="La tua recensione..." />
+                <textarea name="message" required rows={4} className="w-full p-4 rounded-xl border border-border bg-background resize-none outline-none focus:ring-2 focus:ring-azure/20" placeholder="Cosa ne pensi del nostro servizio?" />
 
-                <button type="submit" disabled={status === 'loading'} className="w-full py-4 bg-azure text-white font-bold rounded-xl flex items-center justify-center gap-2">
-                  {status === 'loading' ? <Loader2 className="animate-spin h-5 w-5" /> : <><Send className="h-4 w-4" /> PUBBLICA ORA</>}
+                <button type="submit" disabled={status === 'loading'} className="w-full py-5 bg-azure text-white font-black rounded-2xl flex items-center justify-center gap-3 shadow-xl shadow-azure/20 hover:opacity-90 disabled:opacity-50 transition-all uppercase tracking-widest text-sm">
+                  {status === 'loading' ? <Loader2 className="animate-spin" /> : <><Send className="h-5 w-5" /> Pubblica Recensione</>}
                 </button>
               </form>
             )}

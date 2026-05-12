@@ -14,7 +14,6 @@ export default function RecensioniPage() {
   const sendReview = async (e) => {
     e.preventDefault()
     
-    // Controllo che l'utente abbia messo le stelle
     if (rating === 0) {
       alert("Per favore, seleziona una valutazione cliccando sulle stelle!")
       return
@@ -22,7 +21,6 @@ export default function RecensioniPage() {
     
     setStatus('loading')
 
-    // Questi nomi devono corrispondere a quelli tra {{ }} nel template di EmailJS
     const templateParams = {
       user_name: formRef.current.user_name.value,
       user_email: formRef.current.user_email.value,
@@ -31,10 +29,10 @@ export default function RecensioniPage() {
     }
 
     emailjs.send(
-      'service_sdf5v7r',      // IL TUO SERVICE ID
-      'template_xxxxxxx',     // INCOLLA QUI IL TUO TEMPLATE ID
+      'service_sdf5v7r',          // IL TUO SERVICE ID (GIÀ INSERITO)
+      'METTI_QUI_IL_TUO_TEMPLATE_ID', // <--- COPIA DA EMAILJS (es. template_xxxx)
       templateParams,
-      'user_xxxxxxxxxxxx'     // INCOLLA QUI LA TUA PUBLIC KEY (da Account > API Keys)
+      'METTI_QUI_LA_TUA_PUBLIC_KEY'   // <--- COPIA DA ACCOUNT > API KEYS
     )
     .then((response) => {
       console.log('SUCCESS!', response.status, response.text)
@@ -57,7 +55,6 @@ export default function RecensioniPage() {
         <div className="mx-auto max-w-xl px-4">
           <div className="bg-card rounded-3xl border border-border p-8 shadow-2xl relative overflow-hidden">
             
-            {/* Decorazione estetica */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-azure/5 rounded-full -mr-16 -mt-16" />
 
             {status === 'success' ? (
@@ -108,7 +105,6 @@ export default function RecensioniPage() {
                   </div>
                 </div>
 
-                {/* AREA VALUTAZIONE STELLE */}
                 <div className="py-8 bg-secondary/20 rounded-2xl text-center border border-border/50">
                   <p className="text-xs font-bold uppercase mb-4 text-muted-foreground tracking-widest">
                     Quante stelle ci dai?
@@ -154,7 +150,7 @@ export default function RecensioniPage() {
                 <button 
                   type="submit" 
                   disabled={status === 'loading'} 
-                  className="w-full py-4 bg-azure text-white font-bold rounded-xl flex items-center justify-center gap-3 hover:opacity-90 disabled:opacity-50 transition-all shadow-xl shadow-azure/20 active:translate-y-0.5"
+                  className="w-full py-4 bg-azure text-white font-bold rounded-xl flex items-center justify-center gap-3 hover:opacity-90 disabled:opacity-50 transition-all shadow-xl shadow-azure/20"
                 >
                   {status === 'loading' ? (
                     <>
@@ -172,7 +168,9 @@ export default function RecensioniPage() {
                 {status === 'error' && (
                   <div className="flex items-center gap-2 justify-center text-red-500 bg-red-500/10 p-3 rounded-lg border border-red-500/20">
                     <AlertCircle className="h-4 w-4" />
-                    <p className="text-xs font-bold uppercase">Errore tecnico: Controlla le chiavi API</p>
+                    <p className="text-xs font-bold uppercase text-center">
+                      Errore Tecnico: Controlla Public Key e Template ID su EmailJS
+                    </p>
                   </div>
                 )}
               </form>

@@ -5,7 +5,7 @@ import { PageHeader } from '@/components/page-header'
 import { Star, CheckCircle, Send, MessageSquare, Loader2, Quote } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 
-// LE TUE RECENSIONI SPECIFICHE
+// LE TUE RECENSIONI
 const reviews = [
   { id: 1, text: "Servizio rapido, licenza arrivata in pochi secondi. Ho attivato Windows 11 Pro senza problemi. Consigliatissimo!", author: "Marco R.", rating: 5 },
   { id: 2, text: "Prezzi ottimi e attivazione immediata. Ero scettico inizialmente ma tutto ha funzionato perfettamente.", author: "Laura P.", rating: 5 },
@@ -22,16 +22,16 @@ const reviews = [
 ]
 
 export default function RecensioniPage() {
-  const formRef = useRef()
+  const formRef = useRef(null)
   const [rating, setRating] = useState(0)
   const [hover, setHover] = useState(0)
-  const [status, setStatus] = useState('idle') // idle, loading, success, error
+  const [status, setStatus] = useState('idle')
 
   const sendReview = async (e) => {
     e.preventDefault()
     
     if (rating === 0) {
-      alert("Per favore, seleziona una valutazione cliccando sulle stelle!")
+      alert("Per favore, seleziona una valutazione!")
       return
     }
     
@@ -45,10 +45,10 @@ export default function RecensioniPage() {
     }
 
     emailjs.send(
-      'service_sdf5v7r',                // Service ID
-      'template_n4jq6o9',               // Template ID
+      'service_sdf5v7r',
+      'template_n4jq6o9',
       templateParams,
-      'qZ_1lRdMAu5yNsOKq'               // Public Key
+      'qZ_1lRdMAu5yNsOKq'
     )
     .then(() => {
       setStatus('success')
@@ -66,7 +66,6 @@ export default function RecensioniPage() {
       <section className="py-16 bg-background">
         <div className="mx-auto max-w-7xl px-4">
           
-          {/* Griglia Recensioni Storiche */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
             {reviews.map((r) => (
               <div key={r.id} className="p-8 rounded-2xl bg-card border border-border shadow-sm hover:border-azure/30 transition-all relative overflow-hidden group">
@@ -91,15 +90,13 @@ export default function RecensioniPage() {
 
           <hr className="border-border/50 mb-20" />
 
-          {/* Form per nuova recensione */}
           <div className="max-w-xl mx-auto bg-card rounded-[2rem] border border-border p-8 shadow-2xl">
             {status === 'success' ? (
-              <div className="text-center py-12 animate-in fade-in zoom-in">
+              <div className="text-center py-12">
                 <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckCircle className="h-10 w-10 text-green-500" />
                 </div>
-                <h2 className="text-2xl font-bold mb-2">Inviata con successo!</h2>
-                <p className="text-muted-foreground mb-6">Grazie per aver condiviso la tua esperienza.</p>
+                <h2 className="text-2xl font-bold mb-2">Inviata!</h2>
                 <button onClick={() => {setStatus('idle'); setRating(0)}} className="text-azure font-bold hover:underline">
                   Scrivine un'altra
                 </button>
@@ -110,22 +107,30 @@ export default function RecensioniPage() {
                    <MessageSquare className="text-azure h-5 w-5" /> Lascia la tua recensione
                 </h2>
                 
-                <div className="space-y-4">
-                  <input name="user_name" required className="w-full p-4 rounded-xl border border-border bg-background outline-none focus:ring-2 focus:ring-azure/20 transition-all" placeholder="Nome e Cognome" />
-                  <input name="user_email" type="email" required className="w-full p-4 rounded-xl border border-border bg-background outline-none focus:ring-2 focus:ring-azure/20 transition-all" placeholder="Tua Email" />
-                </div>
+                <input name="user_name" required className="w-full p-4 rounded-xl border border-border bg-background outline-none" placeholder="Nome e Cognome" />
+                <input name="user_email" type="email" required className="w-full p-4 rounded-xl border border-border bg-background outline-none" placeholder="Tua Email" />
 
-                <div className="py-6 bg-secondary/20 rounded-2xl text-center border border-border/50">
+                <div className="py-6 bg-secondary/20 rounded-2xl text-center">
                   <p className="text-[10px] font-bold mb-3 uppercase tracking-widest text-muted-foreground">Valutazione</p>
                   <div className="flex justify-center gap-2">
                     {[1, 2, 3, 4, 5].map((s) => (
-                      <button key={s} type="button" onClick={() => setRating(s)} onMouseEnter={() => setHover(s)} onMouseLeave={() => setHover(0)} className="transition-transform active:scale-90">
-                        <Star className={`h-10 w-10 transition-colors ${(hover || rating) >= s ? 'fill-azure text-azure' : 'text-muted/20 stroke-[1.5px]'}`} />
+                      <button key={s} type="button" onClick={() => setRating(s)} onMouseEnter={() => setHover(s)} onMouseLeave={() => setHover(0)}>
+                        <Star className={`h-10 w-10 ${(hover || rating) >= s ? 'fill-azure text-azure' : 'text-muted/20 stroke-[1.5px]'}`} />
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <textarea name="message" required rows={4} className="w-full p-4 rounded-xl border border-border bg-background resize-none outline-none focus:ring-2 focus:ring-azure/20 transition-all" placeholder="Cosa ne pensi del nostro servizio?" />
+                <textarea name="message" required rows={4} className="w-full p-4 rounded-xl border border-border bg-background resize-none outline-none" placeholder="La tua recensione..." />
 
-                <button type="submit" disabled={status === 'loading'} className="
+                <button type="submit" disabled={status === 'loading'} className="w-full py-4 bg-azure text-white font-bold rounded-xl flex items-center justify-center gap-2">
+                  {status === 'loading' ? <Loader2 className="animate-spin h-5 w-5" /> : <><Send className="h-4 w-4" /> PUBBLICA ORA</>}
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}

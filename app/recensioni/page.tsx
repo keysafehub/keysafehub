@@ -21,6 +21,7 @@ export default function RecensioniPage() {
     
     setStatus('loading')
 
+    // Parametri che devono corrispondere ai {{tag}} nel tuo template EmailJS
     const templateParams = {
       user_name: formRef.current.user_name.value,
       user_email: formRef.current.user_email.value,
@@ -29,10 +30,10 @@ export default function RecensioniPage() {
     }
 
     emailjs.send(
-      'service_sdf5v7r',          // IL TUO SERVICE ID (GIÀ INSERITO)
-      'METTI_QUI_IL_TUO_TEMPLATE_ID', // <--- COPIA DA EMAILJS (es. template_xxxx)
+      'service_sdf5v7r',                // Service ID (Aruba)
+      'IL_TUO_TEMPLATE_ID_QUI',         // <--- CAMBIA QUESTO CON IL TUO ID (es. template_abc123)
       templateParams,
-      'METTI_QUI_LA_TUA_PUBLIC_KEY'   // <--- COPIA DA ACCOUNT > API KEYS
+      'qZ_1lRdMAu5yNsOKq'               // Public Key (La tua chiave)
     )
     .then((response) => {
       console.log('SUCCESS!', response.status, response.text)
@@ -148,36 +149,4 @@ export default function RecensioniPage() {
                 </div>
 
                 <button 
-                  type="submit" 
-                  disabled={status === 'loading'} 
-                  className="w-full py-4 bg-azure text-white font-bold rounded-xl flex items-center justify-center gap-3 hover:opacity-90 disabled:opacity-50 transition-all shadow-xl shadow-azure/20"
-                >
-                  {status === 'loading' ? (
-                    <>
-                      <Loader2 className="animate-spin h-5 w-5" />
-                      INVIO IN CORSO...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="h-5 w-5" />
-                      PUBBLICA RECENSIONE
-                    </>
-                  )}
-                </button>
-                
-                {status === 'error' && (
-                  <div className="flex items-center gap-2 justify-center text-red-500 bg-red-500/10 p-3 rounded-lg border border-red-500/20">
-                    <AlertCircle className="h-4 w-4" />
-                    <p className="text-xs font-bold uppercase text-center">
-                      Errore Tecnico: Controlla Public Key e Template ID su EmailJS
-                    </p>
-                  </div>
-                )}
-              </form>
-            )}
-          </div>
-        </div>
-      </section>
-    </>
-  )
-}
+                  type="submit"

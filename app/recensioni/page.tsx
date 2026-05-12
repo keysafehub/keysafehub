@@ -2,10 +2,8 @@
 
 import { useState } from 'react'
 import { PageHeader } from '@/components/page-header'
-import { Star, Quote, CheckCircle, Send, MessageSquare } from 'lucide-react'
-// IMPORTANTE: Questa è la funzione che invia le mail nel tuo sito. 
-// Il percorso potrebbe essere diverso, controlla dove si trova 'sendEmail' o 'contactAction'
-import { sendEmail } from '@/lib/actions' 
+import { Star, Quote, CheckCircle, MessageSquare } from 'lucide-react'
+import { ReviewForm } from '@/components/review-form' // Ecco il tuo nuovo componente
 
 const reviews = [
   { id: 1, text: "Servizio rapido, licenza arrivata in pochi secondi. Ho attivato Windows 11 Pro senza problemi. Consigliatissimo!", author: "Marco R.", rating: 5 },
@@ -14,99 +12,77 @@ const reviews = [
   { id: 4, text: "Ottimo rapporto qualità prezzo. Licenza originale e funzionante. La uso da mesi senza alcun tipo di errore.", author: "Francesca L.", rating: 5 },
   { id: 5, text: "Acquisto semplice. L&apos;email con la chiave è arrivata subito, anche se inizialmente era finita nella cartella spam.", author: "Alessandro T.", rating: 4 },
   { id: 6, text: "Secondo acquisto su questo sito. Sempre affidabili e con prezzi competitivi rispetto alla concorrenza.", author: "Chiara B.", rating: 5 },
-  { id: 7, text: "Tutto bene, licenza Home attivata subito. Avrei preferito una guida leggermente più dettagliata, ma il supporto ha chiarito.", author: "Roberto C.", rating: 4 },
-  { id: 8, text: "Finalmente un sito serio per le licenze software. Prezzi onesti e assistenza realmente disponibile via chat.", author: "Valentina G.", rating: 5 },
-  { id: 9, text: "Attivazione riuscita al primo tentativo. Molto soddisfatto dell&apos;acquisto, risparmio notevole.", author: "Stefano N.", rating: 5 },
-  { id: 10, text: "Chiave di licenza ricevuta istantaneamente. Il link di download era corretto e l&apos;installazione è andata liscia.", author: "Daniele V.", rating: 5 },
-  { id: 11, text: "Procedura di acquisto chiara. Ho dovuto attendere qualche minuto in più per l&apos;email, ma il codice era perfetto.", author: "Elena S.", rating: 4 },
-  { id: 12, text: "Sito affidabile. Licenza valida a vita come promesso. Ho aggiornato da Windows 10 a 11 senza formattare.", author: "Matteo F.", rating: 5 }
 ]
 
 export default function RecensioniPage() {
   const [rating, setRating] = useState(0)
   const [hover, setHover] = useState(0)
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
-
-  async function handleAction(formData: FormData) {
-    setStatus('sending')
-    
-    // Aggiungiamo il voto al messaggio prima di inviare
-    const originalMessage = formData.get('message')
-    formData.set('message', `VOTO: ${rating}/5 STELLE\n\n${originalMessage}`)
-    formData.set('subject', 'Nuova Recensione da KeySafeHub')
-
-    try {
-      // Chiamiamo la stessa funzione del form contatti
-      const result = await sendEmail(formData)
-      
-      if (result?.success || result) {
-        setStatus('success')
-        setRating(0)
-      } else {
-        setStatus('error')
-      }
-    } catch (e) {
-      setStatus('error')
-    }
-  }
 
   return (
     <>
-      <PageHeader title="Recensioni Clienti" description="Cosa dicono i nostri clienti" />
+      <PageHeader 
+        title="Recensioni Clienti" 
+        description="Scopri cosa pensano di noi i nostri clienti soddisfatti" 
+      />
 
       <section className="py-16 bg-background">
-        <div className="mx-auto max-w-7xl px-4">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
-          {/* Griglia Recensioni */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+          {/* Grid Recensioni Esistenti */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
             {reviews.map((r) => (
-              <div key={r.id} className="p-6 rounded-xl bg-card border border-border shadow-sm">
-                <div className="flex gap-1 mb-3">
-                  {[...Array(5)].map((_, i) => (<Star key={i} className={`h-4 w-4 ${i < r.rating ? 'fill-azure text-azure' : 'text-muted/20'}`} />))}
+              <div key={r.id} className="p-6 rounded-2xl bg-card border border-border shadow-sm">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className={`h-4 w-4 ${i < r.rating ? 'fill-azure text-azure' : 'text-muted/20'}`} />
+                  ))}
                 </div>
-                <p className="text-sm italic mb-4 leading-relaxed">&ldquo;{r.text}&rdquo;</p>
-                <div className="flex items-center gap-2 pt-3 border-t border-border/50 text-xs font-bold">
-                  {r.author} <CheckCircle className="h-3 w-3 text-azure" />
+                <p className="text-foreground/90 italic mb-4 leading-relaxed">&ldquo;{r.text}&rdquo;</p>
+                <div className="flex items-center gap-2 pt-4 border-t border-border/30">
+                  <span className="text-sm font-bold">{r.author}</span>
+                  <CheckCircle className="h-4 w-4 text-azure" />
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Form Identico al modulo contatti */}
-          <div className="max-w-xl mx-auto bg-card rounded-2xl border border-border p-8 shadow-xl">
-            {status === 'success' ? (
-              <div className="text-center py-8">
-                <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-                <h2 className="text-2xl font-bold">Inviata!</h2>
-                <button onClick={() => setStatus('idle')} className="mt-4 text-azure underline">Scrivine un&apos;altra</button>
-              </div>
-            ) : (
-              <form action={handleAction} className="space-y-4">
-                <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                   <MessageSquare className="text-azure h-5 w-5" /> Lascia la tua recensione
-                </h2>
-                
-                <input name="name" required className="w-full p-3 rounded-lg border border-border bg-background outline-none" placeholder="Nome e Cognome" />
-                <input name="email" type="email" required className="w-full p-3 rounded-lg border border-border bg-background outline-none" placeholder="Tua Email" />
-
-                <div className="py-4 text-center">
-                  <p className="text-xs font-bold mb-3 uppercase tracking-widest">Valutazione</p>
-                  <div className="flex justify-center gap-2">
-                    {[1, 2, 3, 4, 5].map((s) => (
-                      <button key={s} type="button" onClick={() => setRating(s)} onMouseEnter={() => setHover(s)} onMouseLeave={() => setHover(0)}>
-                        <Star className={`h-10 w-10 ${(hover || rating) >= s ? 'fill-azure text-azure' : 'text-muted/20 stroke-[1.5px]'}`} />
-                      </button>
-                    ))}
-                  </div>
+          {/* Sezione Form Recensione */}
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-card rounded-3xl border-2 border-azure/10 p-8 shadow-2xl">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="p-3 bg-azure/10 rounded-2xl">
+                  <MessageSquare className="h-6 w-6 text-azure" />
                 </div>
+                <h2 className="text-2xl font-bold text-foreground">Lascia la tua recensione</h2>
+              </div>
 
-                <textarea name="message" required rows={4} className="w-full p-3 rounded-lg border border-border bg-background resize-none outline-none" placeholder="La tua recensione..." />
+              {/* Selettore Stelle Visivo */}
+              <div className="mb-8 p-6 bg-secondary/50 rounded-2xl text-center border border-border/50">
+                <p className="text-sm font-bold mb-3 uppercase tracking-widest text-muted-foreground">Valutazione *</p>
+                <div className="flex justify-center gap-2">
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <button 
+                      key={s} 
+                      type="button" 
+                      onClick={() => setRating(s)} 
+                      onMouseEnter={() => setHover(s)} 
+                      onMouseLeave={() => setHover(0)}
+                      className="transition-transform hover:scale-110 focus:outline-none"
+                    >
+                      <Star className={`h-10 w-10 ${(hover || rating) >= s ? 'fill-azure text-azure' : 'text-muted/30 stroke-[1.5px]'}`} />
+                    </button>
+                  ))}
+                </div>
+                {rating > 0 && <p className="mt-2 text-xs text-azure font-bold">Hai selezionato {rating} stelle</p>}
+              </div>
 
-                <button type="submit" disabled={!rating || status === 'sending'} className="w-full py-4 bg-azure text-white font-bold rounded-xl flex items-center justify-center gap-2">
-                  {status === 'sending' ? 'Invio in corso...' : <><Send className="h-4 w-4" /> INVIA ORA</>}
-                </button>
-              </form>
-            )}
+              {/* IL TUO NUOVO FORM */}
+              <ReviewForm />
+              
+              <p className="text-[10px] text-center text-muted-foreground mt-6 italic">
+                Inviando il modulo, accetti che la tua recensione venga elaborata dal nostro sistema.
+              </p>
+            </div>
           </div>
         </div>
       </section>

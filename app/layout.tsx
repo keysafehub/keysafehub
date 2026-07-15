@@ -4,7 +4,6 @@ import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { Header } from '@/components/header'
 import { Footer } from '@/components/footer'
-// Importa il componente Script per caricare il Pixel in modo ottimizzato
 import Script from 'next/script'
 
 const inter = Inter({ 
@@ -72,25 +71,22 @@ export default function RootLayout({
   return (
     <html lang="it" className="bg-background">
       <head>
-        {/* JSON-LD Schema originale */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         
-        {/* Tag Noscript di riserva per utenti senza Javascript */}
         <noscript>
           <img 
             height="1" 
             width="1" 
             style={{ display: 'none' }}
-            src="https://www.facebook.com/tr?id=2081996525687917&ev=PageView&noscript=1"
+            src={`https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_META_PIXEL_ID}&ev=PageView&noscript=1`}
             alt=""
           />
         </noscript>
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        {/* Meta Pixel Code caricato in modo non bloccante dopo l'interattività della pagina */}
         <Script
           id="meta-pixel"
           strategy="afterInteractive"
@@ -104,7 +100,7 @@ export default function RootLayout({
               t.src=v;s=b.getElementsByTagName(e)[0];
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '2081996525687917');
+              fbq('init', '${process.env.NEXT_PUBLIC_META_PIXEL_ID}');
               fbq('track', 'PageView');
             `,
           }}

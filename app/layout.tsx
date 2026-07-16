@@ -76,17 +76,19 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         
+        {/* Noscript fallback per utenti con JS disattivato */}
         <noscript>
           <img 
             height="1" 
             width="1" 
             style={{ display: 'none' }}
-            src={`https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_META_PIXEL_ID}&ev=PageView&noscript=1`}
+            src="https://www.facebook.com/tr?id=1568231108004550&ev=PageView&noscript=1"
             alt=""
           />
         </noscript>
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
+        {/* Meta Pixel principale */}
         <Script
           id="meta-pixel"
           strategy="afterInteractive"
@@ -100,7 +102,7 @@ export default function RootLayout({
               t.src=v;s=b.getElementsByTagName(e)[0];
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '${process.env.NEXT_PUBLIC_META_PIXEL_ID}');
+              fbq('init', '1568231108004550');
               fbq('track', 'PageView');
             `,
           }}
